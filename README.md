@@ -165,11 +165,27 @@ unauthenticated.
 
 ## Documentation
 
-- [N3FJP API reference (human-readable)](docs/N3FJP-API.md) and
-  [PDF](docs/N3FJP-API.pdf) — a cleaned-up, more complete rewrite of the official
-  page.
-- [N3FJP API spec (machine-readable)](docs/N3FJP-API-SPEC.md) — the command
-  catalog this server is built from.
+### 📻 A field-tested N3FJP API reference (free community resource)
+
+Building this server meant reverse-engineering and **live-verifying** the N3FJP
+TCP API, including several places where today's API (v2.2) differs from the
+public 0.9 documentation. We've written that up as a complete, human-readable
+guide and are sharing it freely to give back to the community:
+
+- **[The N3FJP TCP API — A Field-Tested Reference](docs/N3FJP-API.md)**
+  ([PDF](docs/N3FJP-API.pdf)) — transport, every command grouped by area,
+  verified response examples, contest exchange fields, and a hard-won
+  **gotchas** section (the API vs. networking ports, `CMD_NOT_FOUND`, commands
+  removed since 0.9, the `CALLTABEVENT` lookup, and why `ENTER` can report 0 yet
+  still log in networked mode).
+- **[Machine-readable spec](docs/N3FJP-API-SPEC.md)** — the same information in a
+  terse, structured command catalog suitable for code generation.
+
+Corrections and additions are welcome — please
+[open an issue or PR](https://github.com/sbrunner-atx/contest-mcp/issues).
+
+### Project docs
+
 - [Install guide](docs/INSTALL.md) and [Test plan](docs/TEST-PLAN.md).
 
 ## Development

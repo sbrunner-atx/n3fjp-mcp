@@ -1,9 +1,20 @@
 ---
-title: "The N3FJP TCP API"
-subtitle: "A complete, developer-friendly reference (API version 0.9)"
+title: "The N3FJP TCP API — A Field-Tested Reference"
+subtitle: "A complete, developer-friendly guide, verified live against API version 2.2"
 author: "Compiled for the contest-mcp project by Stefan Brunner (AE5VG)"
 date: "2026-06-23"
 ---
+
+> **A community reference.** This guide was written while building
+> [`contest-mcp`](https://github.com/sbrunner-atx/contest-mcp) and is shared
+> freely (the project is MIT-licensed) to give back to the amateur-radio and
+> developer community. It reorganizes and completes the official N3FJP API page,
+> and — importantly — records what we **verified live** against a running
+> instance, including several places where today's API (v2.2) differs from the
+> public 0.9 documentation. Corrections and additions are welcome via
+> [issues / pull requests](https://github.com/sbrunner-atx/contest-mcp/issues).
+> This is an independent effort, not affiliated with or endorsed by Affirmatech /
+> N3FJP.
 
 # Overview
 
@@ -128,6 +139,17 @@ The in-memory QSO count updates immediately, but the on-disk log file may lag by
 100 ms or more (a separate thread writes it). If you intend to read the file
 directly afterward, allow time for the write.
 
+> **Field-tested gotcha (API 2.2).** When N3FJP runs in **Network mode** (a
+> multi-PC cluster sharing a master log), `ENTERRESPONSE` can come back with
+> `VALUE=0` **even though the QSO was logged** — the master-table commit is
+> asynchronous, so the immediate count is zero. We confirmed the record *was*
+> added (it appeared in `SEARCH`, `QSOCOUNT` incremented, and a repeat
+> `DUPECHECK` reported it). **Don't rely on `ENTERRESPONSE`'s value to decide
+> success in networked mode** — instead compare `QSOCOUNT` before and after.
+> Separately, if the networking server is unreachable, `ENTER` times out with a
+> *"Server Failed to Respond"* dialog and logs nothing; run standalone or keep the
+> networking node reachable.
+
 # The automatic-logging flow
 
 This is the single most important sequence — the reason the API exists:
@@ -139,6 +161,22 @@ This is the single most important sequence — the reason the API exists:
 5. `ACTION` `ENTER`.
 6. Read `ENTERRESPONSE` (and surface any `DUPECHECKRESPONSE` /
    `CALLTABDUPEEVENT`).
+
+**What `CALLTAB` gives you back (verified, API 2.2).** A beat after you send
+`ACTION CALLTAB`, N3FJP returns a single, information-rich `CALLTABEVENT` — the
+whole call lookup in one block. For example, tabbing on `AE5VG` returned:
+
+```
+<CMD><CALLTABEVENT><CALL>AE5VG</CALL><BAND>20</BAND><MODE>DIG</MODE>
+<MODETEST>DIG</MODETEST><COUNTRY>USA</COUNTRY><DXCC>291</DXCC><MYCALL>K6ABC</MYCALL>
+<OPERATOR>AE5VG</OPERATOR><QSOCOUNT>0</QSOCOUNT><PFX>AE5</PFX><CONT>NA</CONT>
+<CQZ>4</CQZ><ITUZ>7</ITUZ><LAT>31.9</LAT><LON>-96.3</LON><BEARING>89.0</BEARING>
+<LONGPATH>269.0</LONGPATH><DISTANCE>1,199</DISTANCE></CMD>
+```
+
+If the call is a duplicate you also receive a `CALLTABDUPEEVENT`. This single
+event is usually all you need for "who am I working and have I worked them
+before" — no separate country/zone lookups required.
 
 # Band, mode, and frequency
 
@@ -357,6 +395,68 @@ per contest. The digital-capable contests and their required fields:
 `TXTENTRYSPCNUM` (State/Province/Country/Number) is filled in contest-specific
 ways; always confirm a contest's live field set with `<CMD><VISIBLEFIELDS></CMD>`.
 
+# Field-tested notes & gotchas (verified against API 2.2)
+
+These are the things that cost us time and aren't obvious from the official 0.9
+page. All were observed live against *N3FJP's ARRL Field Day Contest Log* v6.6.10
+reporting **API version 2.2**.
+
+**The API version isn't 0.9 anymore.** `PROGRAM` returns an `APIVER` tag — ours
+was `2.2`. Read it from `PROGRAM`; there is **no** `APIVERSION` command (it
+returns `CMD_NOT_FOUND`).
+
+**Unknown commands answer back.** An unrecognised command returns
+`<CMD><CMD_NOT_FOUND></CMD>` rather than silence. This is genuinely useful — you
+can probe whether a command exists, and tell "not supported" apart from "no
+response / wrong port".
+
+**Two sockets, two purposes — don't mix them up.** Port **1100** is the *API*.
+Port **1000** is N3FJP's multi-PC *networking/"server"* socket (the master-table
+cluster). Connecting to 1000 with API commands returns nothing. Any cluster node
+appears to answer API calls regardless of its client/server role, but you must
+point your client at the **API** port.
+
+**Commands renamed or gone since 0.9** (all return `CMD_NOT_FOUND` on 2.2):
+
+| 0.9 / assumed | Use instead on 2.2 |
+| --- | --- |
+| `APIVERSION` | the `APIVER` tag in `PROGRAM` |
+| `READQSOCOUNT` | `QSOCOUNT` → `<QSOCOUNTRESPONSE><VALUE>n</VALUE>` |
+| `ALLFIELDSVALUES` | `ALLFIELDS` already includes values |
+| `READUSERDATA` | not present; read individual fields, or `CALLTABEVENT` |
+| `CHECKENTITY` / `ENTITYSTATUS` | entity-status tag could not be confirmed on this build — treat as unavailable |
+
+**Response tags that differ from intuition:**
+
+- `PROGRAM` → `<PGM>`, `<VER>`, `<APIVER>` (not `VERSION`).
+- `QSORATE` → adds `<TOTSCORE>` and `<TOTQSOS>` ahead of the documented fields.
+- `VISIBLEFIELDS` / `ALLFIELDS` → **one response block per field**, each
+  `<…RESPONSE><CONTROL>…</CONTROL><VALUE>…</VALUE>`.
+- `READBMF` → `FREQ` is a float string (e.g. `0.000000` with no rig connected).
+- `DUPECHECKRESPONSE`'s detail is a human-readable string that contains an
+  embedded CRLF, e.g. `Duplicate!  AE5VG at 6/23 22:01 on 20 DIG\r\nRec# 1` —
+  split envelopes on `</CMD>`, **not** on newlines, or you'll truncate it.
+
+**`ENTER` can report 0 yet still log** in Network mode (see the gotcha box under
+*Action commands*). Verify with the `QSOCOUNT` delta, not the `ENTERRESPONSE`
+value.
+
+**`CALLTAB` is your friend.** One `CALLTABEVENT` carries country, DXCC, both
+zones, prefix, continent, bearing, long-path, and distance (see *The
+automatic-logging flow*). It arrives a fraction of a second after the command, so
+give your read a ~1 second settle window.
+
+**Notifications are best-effort for app-driven changes.** With
+`ALLUPDATES TRUE`, *operator*-driven UI changes are pushed, but on this build our
+own app-initiated `UPDATE`s did **not** echo back as separate push events. Events
+caused by your own commands (like `CALLTABEVENT`) arrive **inline** in that
+command's reply, not in the async buffer.
+
+**Derived fields are read-only in practice.** `TXTENTRYCOUNTRYWORKED`,
+`TXTENTRYCQZONE`, `TXTENTRYITUZ`, `TXTENTRYIARUZONE`, `TXTENTRYCONTINENT`, and
+`TXTENTRYPREFIX` are computed by N3FJP from the call — set the call and let it
+fill them.
+
 # Implementation checklist
 
 1. Open a TCP socket to the configured host/port; do not assume loopback.
@@ -369,3 +469,23 @@ ways; always confirm a contest's live field set with `<CMD><VISIBLEFIELDS></CMD>
    flow and surface dupe responses.
 6. Treat add-direct, deletes, raw SQL, and any TX/CW keying as destructive;
    guard whole-database operations behind an explicit configuration switch.
+
+# Credits, license, and contributing
+
+This reference was compiled by **Stefan Brunner (AE5VG)** while building
+[`contest-mcp`](https://github.com/sbrunner-atx/contest-mcp), with thanks to
+**Affirmatech / N3FJP** for the logging software and its open API, and to the
+authors of community clients (notably `dslotter/wsjtx_to_n3fjp`) whose code
+helped confirm the wire format.
+
+It is released under the project's **MIT license** — use it, quote it, and build
+on it freely. If you spot an error, find a command this guide marks uncertain, or
+test against a different N3FJP program/API version, please open an issue or pull
+request so the community reference stays accurate:
+<https://github.com/sbrunner-atx/contest-mcp/issues>.
+
+The companion [machine-readable spec](N3FJP-API-SPEC.md) gives the same
+information in a terse, structured form suitable for code generation.
+
+*Independent project; not affiliated with or endorsed by Affirmatech / N3FJP.
+"N3FJP" is the callsign and trademark of its owner.*
