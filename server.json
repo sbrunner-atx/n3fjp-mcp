@@ -1,0 +1,54 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.sbrunner-atx/contest-mcp",
+  "description": "Log amateur-radio QSOs to N3FJP logging software over its TCP API: log, search, fields, band/mode, database.",
+  "repository": {
+    "url": "https://github.com/sbrunner-atx/contest-mcp",
+    "source": "github"
+  },
+  "version": "0.1.0",
+  "packages": [
+    {
+      "registryType": "pypi",
+      "identifier": "contest-mcp",
+      "version": "0.1.0",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "N3FJP_HOST",
+          "description": "N3FJP API host.",
+          "isRequired": false,
+          "isSecret": false,
+          "format": "string",
+          "default": "127.0.0.1"
+        },
+        {
+          "name": "N3FJP_PORT",
+          "description": "N3FJP API port (Settings → Application Program Interface). Default 1100. Not the multi-PC networking port.",
+          "isRequired": false,
+          "isSecret": false,
+          "format": "string",
+          "default": "1100"
+        },
+        {
+          "name": "N3FJP_TIMEOUT",
+          "description": "Seconds to wait for an N3FJP response.",
+          "isRequired": false,
+          "isSecret": false,
+          "format": "string",
+          "default": "6"
+        },
+        {
+          "name": "N3FJP_ALLOW_DB_WIPE",
+          "description": "DANGER. When off (default), raw SQL that could delete/overwrite the entire log (DROP/TRUNCATE, unscoped DELETE/UPDATE) is refused. Only enable with a backup and full understanding of the risk.",
+          "isRequired": false,
+          "isSecret": false,
+          "format": "string",
+          "default": "off"
+        }
+      ]
+    }
+  ]
+}
