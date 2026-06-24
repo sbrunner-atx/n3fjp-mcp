@@ -43,14 +43,14 @@ buffer.
 
 - **read** — no state change. Default harness permission: **Always Allow**
   (`readOnlyHint: true`).
-- **write** — mutates N3FJP state or the log. Default: **Needs Approval**.
-- **destructive** — deletes/overwrites individual records or keys a
-  transmitter. Default: **Needs Approval** *and* requires `confirm=true` in the
-  tool call.
+- **write** — mutates N3FJP state or the log, **including adding, editing, or
+  deleting individual records**. Default: **Needs Approval** (can be set to
+  *Always Allow* in the client for automation). No extra in-band confirmation.
 - **db-wipe** — can delete or overwrite the **entire** log database (raw SQL
-  `DELETE`/`DROP`/`UPDATE`-without-WHERE). Refused unless the operator sets the
-  `N3FJP_ALLOW_DB_WIPE` config switch (default **off**); independent of the
-  harness permission tiers.
+  `DROP`/`TRUNCATE`/`DELETE`/`UPDATE`-without-WHERE). This is the *only*
+  hard-blocked class: refused unless the operator sets the `N3FJP_ALLOW_DB_WIPE`
+  config switch (default **off**); independent of, and stricter than, the harness
+  permission tiers.
 
 ---
 

@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- **Permission model:** adding, editing, and deleting *individual* records (the
+  `database` tool) and the `n3fjp_call` escape hatch are now ordinary
+  *Needs Approval* writes — the same tier as logging — instead of requiring an
+  extra in-band `confirm=true`. This lets them be globally allowed in the client
+  for hands-off automation. The `confirm` argument was removed.
+- The **only** hard-blocked class is now a whole-database wipe/overwrite
+  (`DROP`/`TRUNCATE` or an unscoped `DELETE`/`UPDATE`), still gated by the
+  off-by-default `N3FJP_ALLOW_DB_WIPE` switch. Scoped record operations run
+  without it. Docs (README, INSTALL, API spec) updated to match.
+
 ## [0.1.0] - 2026-06-23
 
 Initial release.

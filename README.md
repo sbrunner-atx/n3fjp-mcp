@@ -113,8 +113,12 @@ Each tool is one permission and takes an `operation` argument.
 | `log` | **approval** | `log_qso` (set call → CALLTAB → exchange → ENTER), set, set_many, calltab, enter, clear, focus |
 | `bandmode` | **approval** | change_freq, set_band, set_mode, ignore_rig_polls |
 | `notifications` | **approval** | enable / disable push events, drain buffered events |
-| `database` | **approval + confirm** | add_direct, delete, raw sql, checklog, openlog, sqlclose |
-| `n3fjp_call` | **approval + confirm** | escape hatch — send any raw command, incl. future ones |
+| `database` | **approval** | add_direct, delete a record, raw sql, checklog, openlog, sqlclose |
+| `n3fjp_call` | **approval** | escape hatch — send any raw command, incl. future ones |
+
+All write tools sit at the **Needs Approval** tier, so you can set them to *Always
+Allow* in the client for hands-off automation. The single exception is a
+whole-database wipe (see below), which is hard-blocked regardless.
 
 The headline is `log` → `log_qso`:
 
@@ -143,15 +147,17 @@ here is about your **log database**:
 
 - **Read** operations (`status`, `query`, `fields`, `search`) are marked
   read-only — clients can default them to *Always Allow*.
-- **Write** operations (`log`, `bandmode`, `notifications`) default to *Needs
-  Approval*; the client asks before each one.
-- **Destructive** operations in `database` (add-direct, delete a record, raw SQL)
-  and any state-changing `n3fjp_call` additionally require `confirm=true`.
+- **Write** operations — logging (`log`), band/mode (`bandmode`),
+  notifications, and **adding, editing, or deleting individual records**
+  (`database`), plus the `n3fjp_call` escape hatch — all sit at the *Needs
+  Approval* tier. There is no extra in-band confirmation, so you can set them to
+  *Always Allow* in the client and let automation run hands-off.
 - **Whole-database** operations — raw SQL that could delete or overwrite the
-  entire log (`DROP`, `TRUNCATE`, a `DELETE`/`UPDATE` with no `WHERE`) — are
-  **refused** unless `N3FJP_ALLOW_DB_WIPE` is on. This switch is separate from,
-  and stricter than, the client's approval prompts, and carries a stern warning
-  in the settings form. **Back up your log before ever enabling it.**
+  entire log (`DROP`, `TRUNCATE`, a `DELETE`/`UPDATE` with no `WHERE`) — are the
+  one exception: **refused** unless `N3FJP_ALLOW_DB_WIPE` is on. This switch is
+  separate from, and stricter than, the client's approval prompts, and carries a
+  stern warning in the settings form. **Back up your log before ever enabling
+  it.**
 
 Wherever possible, `contest-mcp` leans on N3FJP's own validation (it dupe-checks
 and reports oddities) and surfaces those responses rather than re-implementing

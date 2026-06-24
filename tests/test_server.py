@@ -115,43 +115,57 @@ def test_log_qso_warns_on_missing_exchange(fake):
     assert "warning" in out and "section" in out["warning"]
 
 
-def test_database_delete_requires_confirm(fake):
-    with pytest.raises(server.ConfirmationRequired):
-        server.database("delete", where="fldPrimaryID=5")
-
-
-def test_database_scoped_delete_runs_with_confirm(fake):
-    out = server.database("delete", where="fldPrimaryID=5", confirm=True)
+def test_database_scoped_delete_runs_without_confirm(fake):
+    # Deleting an individual record is an ordinary approval-tier write now.
+    out = server.database("delete", where="fldPrimaryID=5")
     assert "WHERE fldPrimaryID=5" in out["statement"]
     assert any("SENDSQL" in s for s in fake.sent)
 
 
+def test_database_add_direct_runs_without_confirm(fake):
+    out = server.database("add_direct", fields={"fldCall": "W1AW", "fldBand": "20"})
+    assert out["operation"] == "add_direct"
+    assert any("ADDDIRECT" in s for s in fake.sent)
+
+
+def test_database_scoped_sql_runs_without_confirm(fake):
+    out = server.database("sql", sql="UPDATE tblContacts SET fldClass='2A' WHERE fldPrimaryID=5")
+    assert "WHERE fldPrimaryID=5" in out["statement"]
+
+
 def test_database_wipe_blocked_when_switch_off(fake):
     with pytest.raises(server.DatabaseWipeBlocked):
-        server.database("sql", sql="DELETE FROM tblContacts", confirm=True)
+        server.database("sql", sql="DELETE FROM tblContacts")
 
 
 def test_database_wipe_allowed_when_switch_on(fake, monkeypatch):
     monkeypatch.setattr(server.config, "allow_db_wipe", True)
-    out = server.database("sql", sql="DELETE FROM tblContacts", confirm=True)
+    out = server.database("sql", sql="DELETE FROM tblContacts")
     assert out["statement"] == "DELETE FROM tblContacts"
 
 
 def test_database_empty_delete_is_wipe_gated(fake):
-    # A delete with no WHERE would clear the table -> blocked even with confirm.
+    # A delete with no WHERE would clear the table -> blocked unless switch on.
     with pytest.raises(server.DatabaseWipeBlocked):
-        server.database("delete", where="", confirm=True)
+        server.database("delete", where="")
 
 
-def test_n3fjp_call_read_only_no_confirm(fake):
+def test_n3fjp_call_read_runs(fake):
     fake.canned[None] = [parse_block("<PROGRAMRESPONSE><PGM>FD</PGM>")]
     out = server.n3fjp_call("PROGRAM")
     assert out["command"] == "<CMD><PROGRAM></CMD>"
 
 
-def test_n3fjp_call_write_requires_confirm(fake):
-    with pytest.raises(server.ConfirmationRequired):
-        server.n3fjp_call("<ACTION><VALUE>CLEAR</VALUE>")
+def test_n3fjp_call_write_runs_without_confirm(fake):
+    # A state-changing escape-hatch call is allowed (approval-tier), not blocked.
+    out = server.n3fjp_call("<ACTION><VALUE>CLEAR</VALUE>")
+    assert out["command"] == "<CMD><ACTION><VALUE>CLEAR</VALUE></CMD>"
+    assert any("CLEAR" in s for s in fake.sent)
+
+
+def test_n3fjp_call_wipe_sql_blocked(fake):
+    with pytest.raises(server.DatabaseWipeBlocked):
+        server.n3fjp_call("<SENDSQL><VALUE>DELETE FROM tblContacts</VALUE>")
 
 
 def test_n3fjp_call_normalises_forms(fake):

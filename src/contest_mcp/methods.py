@@ -165,7 +165,9 @@ WRITE_OPS: frozenset[str] = frozenset(
     }
 )
 
-# Destructive operations — Needs Approval AND require confirm=true.
+# Direct-database operations. These are ordinary writes (Needs Approval, no
+# in-band confirm); only a *whole-database* wipe is hard-blocked, by the
+# N3FJP_ALLOW_DB_WIPE switch enforced in server.py.
 DESTRUCTIVE_OPS: frozenset[str] = frozenset({"add_direct", "delete", "sql"})
 
 

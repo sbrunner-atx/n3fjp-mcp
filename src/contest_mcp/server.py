@@ -5,18 +5,19 @@ tool per command. Each group tool takes an ``operation`` argument, and every
 documented capability is reachable either through a group or the ``n3fjp_call``
 escape hatch (which also reaches commands added by newer N3FJP builds).
 
-Permission model (set via tool annotations + explicit confirms):
+Permission model (set via tool annotations + a whole-database wipe gate):
 
 * **Read** tools are marked ``readOnlyHint`` so clients can default them to
   *Always Allow*: ``status``, ``query``, ``fields``, ``search``.
 * **Write** tools default to *Needs Approval*: ``log``, ``bandmode``,
   ``notifications``.
-* **Destructive** operations (add-direct, delete a record, raw SQL) live in the
-  ``database`` tool and additionally require ``confirm=true``.
-* Operations that could wipe or overwrite the **entire** database (raw SQL
-  ``DELETE``/``DROP``/unscoped ``UPDATE``) are refused unless the operator sets
-  the ``N3FJP_ALLOW_DB_WIPE`` config switch — independent of, and stricter than,
-  the client's approval prompts.
+* Adding, editing, and deleting **individual** records (the ``database`` tool)
+  are ordinary writes at the *Needs Approval* tier — same risk class as logging —
+  so they can be globally allowed in the client for hands-off automation.
+* Only operations that could wipe or overwrite the **entire** database (raw SQL
+  ``DROP``/``TRUNCATE`` or an unscoped ``DELETE``/``UPDATE``) are hard-blocked,
+  and only by the off-by-default ``N3FJP_ALLOW_DB_WIPE`` config switch —
+  independent of, and stricter than, the client's approval prompts.
 """
 
 from __future__ import annotations
@@ -37,15 +38,10 @@ mcp = FastMCP("contest-mcp")
 _n3fjp = N3fjp(config.host, config.port, timeout=config.timeout)
 
 READ_ONLY = ToolAnnotations(readOnlyHint=True)
-DESTRUCTIVE = ToolAnnotations(destructiveHint=True)
 
 
 class DatabaseWipeBlocked(RuntimeError):
     """Raised when a whole-database operation is attempted with the switch off."""
-
-
-class ConfirmationRequired(RuntimeError):
-    """Raised when a destructive operation is called without confirm=true."""
 
 
 # --- low-level helpers -------------------------------------------------------
@@ -87,10 +83,16 @@ def _qso_count() -> int | None:
         return None
 
 
-def _require_confirm(confirm: bool, what: str) -> None:
-    if not confirm:
-        raise ConfirmationRequired(
-            f"{what} is destructive and was not run. Re-issue with confirm=true to proceed."
+def _guard_db_wipe(statement: str) -> None:
+    """Refuse a whole-database wipe/overwrite unless the operator enabled it."""
+    if is_db_wipe_sql(statement) and not config.allow_db_wipe:
+        raise DatabaseWipeBlocked(
+            "REFUSED: this statement could delete or overwrite the ENTIRE log "
+            "database. It is blocked because the N3FJP_ALLOW_DB_WIPE safety switch "
+            "is OFF (the default). Adding, editing, or deleting individual records "
+            "does not need that switch — only whole-database operations do. If you "
+            "truly intend one, enable the switch in the server settings and back up "
+            "your log first."
         )
 
 
@@ -417,27 +419,31 @@ def search(
 # --- database (destructive) --------------------------------------------------
 
 
-@mcp.tool(annotations=DESTRUCTIVE)
+@mcp.tool()
 def database(
     operation: str,
     fields: dict[str, str] | None = None,
     exclude_dupes: bool = False,
     where: str | None = None,
     sql: str | None = None,
-    confirm: bool = False,
 ) -> dict:
-    """Direct database operations. **Destructive — each requires confirm=true.**
+    """Direct database operations on individual records.
+
+    These are ordinary writes (the *Needs Approval* tier — same as logging), so
+    they can be globally allowed in the client for automation. The ONLY hard
+    block is a whole-database wipe/overwrite, gated by N3FJP_ALLOW_DB_WIPE.
 
     operations:
       - add_direct (fields={fldCall:..., fldBand:...}, exclude_dupes): insert a
         record directly, bypassing N3FJP's scoring. Prefer log's log_qso/ENTER.
       - delete (where="fldPrimaryID=123"): delete matching records. A missing or
-        empty WHERE would delete the whole table and is refused unless the
-        N3FJP_ALLOW_DB_WIPE switch is on.
+        empty WHERE would clear the whole table and is refused unless
+        N3FJP_ALLOW_DB_WIPE is on.
       - sql (sql="..."): run a raw SQL statement against the Access database.
-        Statements that could wipe/overwrite the whole database (DROP, TRUNCATE,
-        unscoped DELETE/UPDATE) are refused unless N3FJP_ALLOW_DB_WIPE is on.
-      - checklog / openlog: ask N3FJP to reload new / all records (safe).
+        Only statements that could wipe/overwrite the whole database (DROP,
+        TRUNCATE, unscoped DELETE/UPDATE) are refused unless N3FJP_ALLOW_DB_WIPE
+        is on; scoped statements run normally.
+      - checklog / openlog: ask N3FJP to reload new / all records.
       - sqlclose: close the SQL connection.
     """
     if operation in ("checklog", "openlog", "sqlclose"):
@@ -446,7 +452,6 @@ def database(
         return {"operation": operation, "ok": True}
 
     if operation == "add_direct":
-        _require_confirm(confirm, "add_direct")
         if not fields:
             raise ValueError("add_direct requires fields={fldCall:..., ...}.")
         body: dict[str, object] = {}
@@ -460,15 +465,7 @@ def database(
 
     if operation in ("delete", "sql"):
         statement = sql if operation == "sql" else _build_delete(where)
-        _require_confirm(confirm, operation)
-        if is_db_wipe_sql(statement) and not config.allow_db_wipe:
-            raise DatabaseWipeBlocked(
-                "REFUSED: this statement could delete or overwrite the ENTIRE log "
-                "database. It is blocked because the N3FJP_ALLOW_DB_WIPE safety "
-                "switch is OFF (the default). If you truly intend a whole-database "
-                "operation, enable that switch in the server settings — and back up "
-                "your log first."
-            )
+        _guard_db_wipe(statement)
         blocks = _n3fjp.command(build_cmd("SENDSQL", {"VALUE": statement}), settle=0.3)
         _n3fjp.command(build_cmd("SQLCLOSE"), settle=0.05)
         _n3fjp.command(build_cmd("OPENLOG"), settle=0.1)
@@ -515,12 +512,8 @@ def notifications(operation: str) -> dict:
 # --- escape hatch ------------------------------------------------------------
 
 
-@mcp.tool(annotations=DESTRUCTIVE)
-def n3fjp_call(
-    command: str,
-    expect: str | None = None,
-    confirm: bool = False,
-) -> dict:
+@mcp.tool()
+def n3fjp_call(command: str, expect: str | None = None) -> dict:
     """Escape hatch: send any raw N3FJP command and return the parsed reply.
 
     `command` may be a bare command id ("PROGRAM"), a full envelope
@@ -528,35 +521,14 @@ def n3fjp_call(
     and CRLF-terminated for you. `expect` is the response id to wait for.
 
     This reaches anything not surfaced by a group tool, including newer commands.
-    Because it can send destructive commands, it requires confirm=true unless the
-    command is an obvious read (PROGRAM, READ, READBMF, QSOCOUNT, *FIELDS, LIST,
-    SEARCH, DUPECHECK, *PATH, QSORATE, NEXTSERIALNUMBER).
+    Like the group tools, it runs at the *Needs Approval* tier; the only hard
+    block is a raw SQL statement that could wipe/overwrite the whole database,
+    which still requires the N3FJP_ALLOW_DB_WIPE switch.
     """
     raw = _normalise_raw(command)
-    if not _looks_read_only(raw) and not confirm:
-        raise ConfirmationRequired(
-            "n3fjp_call may send a state-changing command; re-issue with confirm=true."
-        )
+    _guard_db_wipe(raw)
     blocks = _n3fjp.command(raw, expect=expect)
     return {"command": raw, "result": _fmt(blocks)}
-
-
-_READ_ONLY_IDS = (
-    "PROGRAM",
-    "READBMF",
-    "READ",
-    "QSOCOUNT",
-    "VISIBLEFIELDS",
-    "ALLFIELDS",
-    "LIST",
-    "SEARCH",
-    "DUPECHECK",
-    "FILEPATH",
-    "SETTINGSPATH",
-    "SETTINGSPATHSHARED",
-    "QSORATE",
-    "NEXTSERIALNUMBER",
-)
 
 
 def _normalise_raw(command: str) -> str:
@@ -566,11 +538,6 @@ def _normalise_raw(command: str) -> str:
     if text.startswith("<"):
         return f"<CMD>{text}</CMD>"
     return f"<CMD><{text.upper()}></CMD>"
-
-
-def _looks_read_only(raw: str) -> bool:
-    upper = raw.upper()
-    return any(f"<{rid}>" in upper for rid in _READ_ONLY_IDS)
 
 
 def main() -> None:

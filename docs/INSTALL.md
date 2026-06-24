@@ -70,10 +70,11 @@ Then try *"check if W1AW is a dupe"*, or *"log K1ABC, 1D in EMA"*.
 ## About logging (please read)
 
 - **Reads** (status, search, dupe checks) happen freely.
-- **Logging and changes** ask for your approval each time.
-- **Deleting records or running raw SQL** require an explicit confirmation.
-- **Whole-database** operations are blocked unless you deliberately enabled the
-  danger switch in settings.
+- **Logging and changes** — including adding, editing, or deleting individual
+  records — ask for your approval each time. You can set these to *Always Allow*
+  in Claude Desktop if you want hands-off automation.
+- **Whole-database** operations (wiping or overwriting the entire log) are
+  blocked unless you deliberately enabled the danger switch in settings.
 
 You remain the responsible operator — treat Claude as an assistant, and keep a
 backup of your log.
