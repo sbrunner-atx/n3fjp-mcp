@@ -1,6 +1,6 @@
 [project]
 name = "contest-mcp"
-version = "0.1.0"
+version = "0.1.1"
 description = "An MCP server for logging amateur-radio QSOs to N3FJP logging software over its TCP API."
 readme = "README.md"
 license = { text = "MIT" }

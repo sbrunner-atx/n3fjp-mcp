@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-06-23
+
 ### Changed
 - **Permission model:** adding, editing, and deleting *individual* records (the
   `database` tool) and the `n3fjp_call` escape hatch are now ordinary
@@ -55,5 +57,6 @@ Initial release.
   machine-readable spec, an install guide, and a live test plan. The API
   reference and spec were verified live against N3FJP API version 2.2.
 
-[Unreleased]: https://github.com/sbrunner-atx/contest-mcp/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/sbrunner-atx/contest-mcp/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/sbrunner-atx/contest-mcp/releases/tag/v0.1.1
 [0.1.0]: https://github.com/sbrunner-atx/contest-mcp/releases/tag/v0.1.0

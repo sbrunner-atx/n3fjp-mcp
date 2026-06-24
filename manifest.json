@@ -2,7 +2,7 @@
   "manifest_version": "0.4",
   "name": "contest-mcp",
   "display_name": "N3FJP Logging (Amateur Radio)",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Log amateur-radio QSOs to N3FJP logging software from Claude.",
   "long_description": "Connects to the N3FJP logging software's TCP API (shared across Amateur Contact Log and the 100+ N3FJP contest loggers) and exposes it as a small set of logically-grouped tools. Log contacts with the automatic Call → CALLTAB → exchange → ENTER flow, read and search the log, run dupe and band/mode operations, and reach anything else through an escape hatch. Safe by design: reads are read-only, all writes (including adding, editing, or deleting individual records) sit at the approval tier so you can allow them globally for automation, and only whole-database wipes are hard-blocked unless a dedicated off-by-default switch is enabled. Verified live against N3FJP API version 2.2. Pairs with fldigi-mcp (which operates the radio) for an end-to-end operate-and-log workflow.",
   "author": {
