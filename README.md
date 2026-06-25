@@ -171,17 +171,19 @@ If N3FJP runs on the **same** computer as Claude Desktop (the common case), leav
 If N3FJP runs on a **different** computer, there's a catch: Claude Desktop runs
 the connector **sandboxed so it can only reach `127.0.0.1`, not LAN addresses** —
 so putting N3FJP's LAN IP in the settings will time out even though `telnet` to
-that IP works. The fix ships with the package: run the `contest-mcp-forward`
-forwarder on the Claude Desktop machine and point the connector at `127.0.0.1`:
+that IP works. The fix ships with the package as a one-command installer — run it
+on the Claude Desktop computer (macOS/Linux/Windows), then set the host to
+`127.0.0.1`:
 
 ```
-contest-mcp-forward --to 192.168.1.50      # relays 127.0.0.1:1100 -> the N3FJP PC
+pipx install contest-mcp        # or pip install contest-mcp
+contest-mcp-forward install --to 192.168.1.50   # auto-starts on login, survives reboots
 ```
 
-Then set **N3FJP host = `127.0.0.1`**. Full install / modify / remove
-instructions (macOS launchd, Windows, Linux) are in
-[docs/REMOTE-HOST.md](docs/REMOTE-HOST.md). Keep the link on a trusted LAN — the
-API is unauthenticated.
+Manage it with `contest-mcp-forward status` / `uninstall`, and change the IP by
+re-running `install --to <new-ip>`. Full instructions (macOS, Windows, Linux) are
+in [docs/REMOTE-HOST.md](docs/REMOTE-HOST.md). Keep the link on a trusted LAN —
+the API is unauthenticated.
 
 ## Documentation
 

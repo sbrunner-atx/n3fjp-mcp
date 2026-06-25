@@ -1,168 +1,86 @@
 # Running N3FJP on a different computer than Claude
 
-Most people run N3FJP on the **same** computer as Claude Desktop. In that case
-leave **N3FJP host = `127.0.0.1`** and everything just works — you can ignore
-this page.
+## The common case: same computer → nothing to do
 
-This page is for the case where **N3FJP runs on another computer** (a Windows PC
-or VM) while Claude Desktop runs elsewhere (e.g. a Mac).
+If N3FJP runs on the **same computer** as Claude Desktop, leave **N3FJP host =
+`127.0.0.1`** in the connector settings. It just works. You can stop reading.
 
-## Why a correct LAN IP can still fail
+## Different computer → one command
 
-Claude Desktop runs the MCP connector in a **sandbox that can only reach
-`127.0.0.1` (loopback) — not LAN addresses**, even with macOS *Privacy &
-Security → Local Network → Claude* turned on. So if you put N3FJP's LAN IP
-(e.g. `192.168.1.50`) into the connector settings, it will **time out** — even
-though `telnet 192.168.1.50 1100` works fine from a terminal on the same machine.
-That's not a bug in N3FJP or contest-mcp; the connector simply isn't allowed to
-dial the LAN.
+If N3FJP runs on **another computer** (a Windows PC or VM) while Claude Desktop
+runs elsewhere, there's a catch: Claude Desktop runs the connector **sandboxed so
+it can only reach `127.0.0.1`, not LAN addresses**. So entering N3FJP's LAN IP
+(e.g. `192.168.1.50`) in the settings will *time out* — even though `telnet` to
+that IP works from a terminal. It's a security sandbox, not a bug.
 
-The fix is a tiny **forwarder** that runs *outside* the sandbox on the same
-machine as Claude Desktop. It listens on loopback and relays to the remote
-N3FJP. You then point the connector at `127.0.0.1`, and the forwarder does the
-LAN hop.
+The fix is a tiny **forwarder** that runs on the Claude Desktop computer, listens
+on `127.0.0.1`, and relays to the remote N3FJP. It's bundled with the package and
+installs itself with one command.
 
 ```
-Claude Desktop (sandboxed connector)  --127.0.0.1:1100-->  forwarder  --LAN-->  N3FJP @ 192.168.1.50:1100
+Claude Desktop (sandboxed)  ──127.0.0.1:1100──▶  forwarder  ──LAN──▶  N3FJP @ 192.168.1.50:1100
 ```
 
-The forwarder ships with the package as the `contest-mcp-forward` command.
+### Step 1 — install + start the forwarder (on the Claude Desktop computer)
 
----
+Replace `192.168.1.50` with your N3FJP computer's IP.
 
-## macOS (launchd) — recommended, survives reboots
-
-Replace `192.168.1.50` with your N3FJP computer's IP throughout.
-
-### Add (install + start)
-
-1. Find the forwarder. If you installed the `.mcpb` extension you can just use a
-   copy of the script; the simplest is to install the package once:
-
-   ```
-   pipx install contest-mcp        # or: pip install --user contest-mcp
-   which contest-mcp-forward
-   ```
-
-2. Create the launchd agent file
-   `~/Library/LaunchAgents/com.contest-mcp.forward.plist` with this content
-   (set the `--to` IP and the full path to `contest-mcp-forward` from step 1):
-
-   ```xml
-   <?xml version="1.0" encoding="UTF-8"?>
-   <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-   <plist version="1.0">
-   <dict>
-     <key>Label</key><string>com.contest-mcp.forward</string>
-     <key>ProgramArguments</key>
-     <array>
-       <string>/FULL/PATH/TO/contest-mcp-forward</string>
-       <string>--to</string><string>192.168.1.50:1100</string>
-       <string>--listen</string><string>127.0.0.1:1100</string>
-     </array>
-     <key>RunAtLoad</key><true/>
-     <key>KeepAlive</key><true/>
-     <key>StandardOutPath</key><string>/tmp/contest-mcp-forward.log</string>
-     <key>StandardErrorPath</key><string>/tmp/contest-mcp-forward.err</string>
-   </dict>
-   </plist>
-   ```
-
-3. Load and start it:
-
-   ```
-   launchctl load ~/Library/LaunchAgents/com.contest-mcp.forward.plist
-   ```
-
-4. In the contest-mcp connector settings, set **N3FJP host = `127.0.0.1`**, Save,
-   then **Cmd-Q and reopen** Claude Desktop.
-
-Verify:
-
+**macOS / Linux:**
 ```
-launchctl list | grep contest-mcp.forward          # shows it running (status 0)
-python3 -c "import socket;s=socket.create_connection(('127.0.0.1',1100),3);s.sendall(b'<CMD><PROGRAM></CMD>\r\n');print(s.recv(200))"
+pipx install contest-mcp        # or: pip install --user contest-mcp
+contest-mcp-forward install --to 192.168.1.50
 ```
 
-### Modify (e.g. the N3FJP computer's IP changed)
-
-Edit the `--to` value in the plist, then reload:
-
-```
-launchctl unload ~/Library/LaunchAgents/com.contest-mcp.forward.plist
-# edit the <string>192.168.1.50:1100</string> line to the new IP
-launchctl load ~/Library/LaunchAgents/com.contest-mcp.forward.plist
-```
-
-The connector stays on `127.0.0.1` — you never touch the connector settings
-again; only the plist's target IP changes.
-
-### Delete (stop + remove)
-
-```
-launchctl unload ~/Library/LaunchAgents/com.contest-mcp.forward.plist
-rm ~/Library/LaunchAgents/com.contest-mcp.forward.plist
-```
-
-(Then set the connector host back to wherever N3FJP actually is, if you stop
-using the forwarder.)
-
-### Quick test without installing a service (foreground)
-
-```
-contest-mcp-forward --to 192.168.1.50
-```
-
-Leave it running in a terminal; Ctrl-C to stop. Good for trying it before you
-commit to the launchd agent.
-
----
-
-## Windows (N3FJP on another Windows PC)
-
-Run the forwarder on the machine where Claude Desktop runs:
-
+**Windows (PowerShell):**
 ```
 pip install contest-mcp
-contest-mcp-forward --to 192.168.1.50
+contest-mcp-forward install --to 192.168.1.50
 ```
 
-To make it persistent, create a **Task Scheduler** task that runs
-`contest-mcp-forward --to 192.168.1.50` *At log on* with *Run whether user is
-logged on or not* unticked (so it shares your session), or drop a shortcut to it
-in `shell:startup`.
+That sets up a background service that **starts automatically on login and
+restarts if it dies** (launchd on macOS, systemd on Linux, a logon Scheduled
+Task on Windows), then prints a connection test.
 
-## Linux (systemd --user)
+> No Python? Install it first — macOS already has it; on Windows use
+> `winget install Python.Python.3` (or python.org); on Linux it's preinstalled.
+
+### Step 2 — point the connector at loopback
+
+In the **contest-mcp settings**, set **N3FJP host = `127.0.0.1`** (port `1100`),
+click **Save**, then **fully quit and reopen** Claude Desktop. Ask Claude *"what's
+the N3FJP status?"* to confirm.
+
+That's it — you never touch the connector settings again.
+
+## Managing the forwarder
 
 ```
-pip install --user contest-mcp
-mkdir -p ~/.config/systemd/user
-cat > ~/.config/systemd/user/contest-mcp-forward.service <<'EOF'
-[Unit]
-Description=contest-mcp loopback forwarder to remote N3FJP
-[Service]
-ExecStart=%h/.local/bin/contest-mcp-forward --to 192.168.1.50:1100 --listen 127.0.0.1:1100
-Restart=always
-[Install]
-WantedBy=default.target
-EOF
-systemctl --user daemon-reload
-systemctl --user enable --now contest-mcp-forward.service
+contest-mcp-forward status                    # check it + test the connection
+contest-mcp-forward install --to 192.168.1.99 # change the N3FJP IP (just re-run install)
+contest-mcp-forward uninstall                 # stop + remove it
 ```
 
-Modify: edit the `--to` IP in the unit and `systemctl --user restart
-contest-mcp-forward`. Delete: `systemctl --user disable --now
-contest-mcp-forward` then remove the unit file.
+When your N3FJP computer's IP changes, just re-run `install --to <new-ip>` — the
+connector stays on `127.0.0.1` forever.
 
----
+### Try it without installing a service (foreground)
+
+```
+contest-mcp-forward run --to 192.168.1.50
+```
+
+Leave it running in a terminal window; Ctrl-C to stop. Good for a quick test
+before committing to the background service.
 
 ## Notes
 
-- The forwarder only relays bytes; it adds no auth and no encryption. Keep it on
-  a trusted LAN, exactly like the N3FJP API itself.
-- One forwarder per remote service. If you also run fldigi on another host for
-  `fldigi-mcp`, run a second forwarder (different local port) and point that
-  connector at `127.0.0.1` the same way.
-- This limitation is imposed by Claude Desktop's connector sandbox, so it can't
-  be removed from inside the package — but the bundled forwarder makes the
-  remote-host setup a one-time, few-line task.
+- The forwarder only relays bytes — no auth, no encryption — so keep it on a
+  trusted LAN, exactly like the N3FJP API itself.
+- One forwarder per remote service. If `fldigi-mcp` also talks to fldigi on
+  another host, run a second forwarder on a different local port and point that
+  connector at `127.0.0.1` too.
+- This sandbox limitation is imposed by Claude Desktop on the connector, so it
+  can't be removed from inside the package — but the bundled installer makes the
+  remote-host setup a one-line, one-time task.
+- Best of all: if you can simply run N3FJP and Claude Desktop on the **same**
+  computer, you avoid all of this.

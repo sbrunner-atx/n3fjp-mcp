@@ -10,12 +10,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.1.2] - 2026-06-23
 
 ### Added
-- **Remote-host support via a bundled forwarder.** Claude Desktop runs the MCP
-  connector sandboxed so it can only reach `127.0.0.1`, not LAN addresses — so a
-  correct LAN IP for N3FJP on another computer still fails. New
-  `contest-mcp-forward` console script relays `127.0.0.1:1100` to a remote N3FJP;
-  point the connector's host at `127.0.0.1`. See `docs/REMOTE-HOST.md` for
-  install / modify / remove (macOS launchd, Windows, Linux).
+- **Remote-host support via a one-command forwarder.** Claude Desktop runs the
+  MCP connector sandboxed so it can only reach `127.0.0.1`, not LAN addresses — so
+  a correct LAN IP for N3FJP on another computer still fails. New
+  `contest-mcp-forward` console script bridges `127.0.0.1:1100` to a remote
+  N3FJP. `contest-mcp-forward install --to <ip>` sets up a self-starting
+  background service (launchd on macOS, systemd on Linux, a logon Scheduled Task
+  on Windows), copies itself to a stable location, and tests the connection;
+  `status` / `uninstall` manage it; re-running `install` changes the IP. Then set
+  the connector host to `127.0.0.1`. See `docs/REMOTE-HOST.md`.
 
 ### Changed
 - The "could not reach N3FJP" error now detects a non-loopback host and explains
