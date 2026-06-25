@@ -163,11 +163,25 @@ Wherever possible, `contest-mcp` leans on N3FJP's own validation (it dupe-checks
 and reports oddities) and surfaces those responses rather than re-implementing
 them.
 
-### Remote / contest-station setups
+### Remote / contest-station setups (N3FJP on another computer)
 
-N3FJP need not run on the same machine. Point the server at it with
-`N3FJP_HOST`/`N3FJP_PORT`. Keep the link on a trusted LAN — the API is
-unauthenticated.
+If N3FJP runs on the **same** computer as Claude Desktop (the common case), leave
+`N3FJP_HOST` at `127.0.0.1` and you're done.
+
+If N3FJP runs on a **different** computer, there's a catch: Claude Desktop runs
+the connector **sandboxed so it can only reach `127.0.0.1`, not LAN addresses** —
+so putting N3FJP's LAN IP in the settings will time out even though `telnet` to
+that IP works. The fix ships with the package: run the `contest-mcp-forward`
+forwarder on the Claude Desktop machine and point the connector at `127.0.0.1`:
+
+```
+contest-mcp-forward --to 192.168.1.50      # relays 127.0.0.1:1100 -> the N3FJP PC
+```
+
+Then set **N3FJP host = `127.0.0.1`**. Full install / modify / remove
+instructions (macOS launchd, Windows, Linux) are in
+[docs/REMOTE-HOST.md](docs/REMOTE-HOST.md). Keep the link on a trusted LAN — the
+API is unauthenticated.
 
 ## Documentation
 

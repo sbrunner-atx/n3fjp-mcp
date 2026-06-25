@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.2] - 2026-06-23
+
+### Added
+- **Remote-host support via a bundled forwarder.** Claude Desktop runs the MCP
+  connector sandboxed so it can only reach `127.0.0.1`, not LAN addresses — so a
+  correct LAN IP for N3FJP on another computer still fails. New
+  `contest-mcp-forward` console script relays `127.0.0.1:1100` to a remote N3FJP;
+  point the connector's host at `127.0.0.1`. See `docs/REMOTE-HOST.md` for
+  install / modify / remove (macOS launchd, Windows, Linux).
+
+### Changed
+- The "could not reach N3FJP" error now detects a non-loopback host and explains
+  the loopback limitation and the forwarder fix inline.
+
 ## [0.1.1] - 2026-06-23
 
 ### Changed
@@ -57,6 +71,7 @@ Initial release.
   machine-readable spec, an install guide, and a live test plan. The API
   reference and spec were verified live against N3FJP API version 2.2.
 
-[Unreleased]: https://github.com/sbrunner-atx/contest-mcp/compare/v0.1.1...HEAD
+[Unreleased]: https://github.com/sbrunner-atx/contest-mcp/compare/v0.1.2...HEAD
+[0.1.2]: https://github.com/sbrunner-atx/contest-mcp/releases/tag/v0.1.2
 [0.1.1]: https://github.com/sbrunner-atx/contest-mcp/releases/tag/v0.1.1
 [0.1.0]: https://github.com/sbrunner-atx/contest-mcp/releases/tag/v0.1.0

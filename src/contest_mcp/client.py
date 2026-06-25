@@ -32,6 +32,12 @@ from contest_mcp.protocol import (
 DEFAULT_HOST = "127.0.0.1"
 DEFAULT_PORT = 1100
 
+_LOOPBACK = {"127.0.0.1", "::1", "localhost"}
+
+
+def _is_loopback(host: str) -> bool:
+    return host.strip().lower() in _LOOPBACK
+
 
 class N3fjpError(RuntimeError):
     """Raised when N3FJP cannot be reached or the connection drops."""
@@ -74,11 +80,22 @@ class N3fjp:
             self._sock = socket.create_connection((self.host, self.port), timeout=self.timeout)
         except (ConnectionRefusedError, OSError) as exc:
             self._sock = None
-            raise N3fjpError(
+            hint = (
                 f"Could not reach N3FJP at {self.url}. Is N3FJP running with "
                 f"Settings → Application Program Interface → 'TCP API Enabled' "
                 f"checked, and the host/port correct?"
-            ) from exc
+            )
+            if not _is_loopback(self.host):
+                hint += (
+                    " Note: Claude Desktop may run this connector sandboxed so it can "
+                    "only reach 127.0.0.1, not LAN addresses — so a correct LAN IP can "
+                    "still fail here even when it works from a terminal. If N3FJP is on "
+                    "another computer, run the bundled forwarder on this machine "
+                    "(`contest-mcp-forward --to "
+                    f"{self.host}:{self.port}`) and set the N3FJP host to 127.0.0.1. "
+                    "See docs/REMOTE-HOST.md."
+                )
+            raise N3fjpError(hint) from exc
         self._buf = ""
         self._closed = False
         self._reader = threading.Thread(target=self._reader_loop, daemon=True)
