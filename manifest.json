@@ -58,7 +58,7 @@
     "n3fjp_host": {
       "type": "string",
       "title": "N3FJP host",
-      "description": "Host where N3FJP runs. Leave as 127.0.0.1 unless N3FJP is on another computer.",
+      "description": "Leave as 127.0.0.1. If N3FJP is on another computer, run mcp-host-bridge on this machine and keep this at 127.0.0.1 (a sandboxed client can't reach LAN IPs directly). See docs/REMOTE-HOST.md.",
       "default": "127.0.0.1"
     },
     "n3fjp_port": {
