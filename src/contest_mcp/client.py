@@ -21,6 +21,7 @@ import time
 from collections import deque
 from collections.abc import Callable
 
+from contest_mcp import diag
 from contest_mcp.protocol import (
     CRLF,
     Block,
@@ -80,22 +81,16 @@ class N3fjp:
             self._sock = socket.create_connection((self.host, self.port), timeout=self.timeout)
         except (ConnectionRefusedError, OSError) as exc:
             self._sock = None
-            hint = (
-                f"Could not reach N3FJP at {self.url}. Is N3FJP running with "
-                f"Settings → Application Program Interface → 'TCP API Enabled' "
-                f"checked, and the host/port correct?"
-            )
+            msg = diag.connection_error(self.host, self.port, exc)
             if not _is_loopback(self.host):
-                hint += (
-                    " Note: Claude Desktop may run this connector sandboxed so it can "
-                    "only reach 127.0.0.1, not LAN addresses — so a correct LAN IP can "
-                    "still fail here even when it works from a terminal. If N3FJP is on "
-                    "another computer, run the bundled forwarder on this machine "
-                    "(`contest-mcp-forward --to "
-                    f"{self.host}:{self.port}`) and set the N3FJP host to 127.0.0.1. "
-                    "See docs/REMOTE-HOST.md."
+                msg += (
+                    " | If this host cannot reach the target (e.g. a sandboxed MCP "
+                    "client that only reaches loopback), run the standalone "
+                    f"mcp-host-bridge on this machine — `mcp-host-bridge install n3fjp "
+                    f"--to {self.host}` — and set N3FJP host to 127.0.0.1. See "
+                    "docs/REMOTE-HOST.md. Run the `diagnostics` tool for host/network detail."
                 )
-            raise N3fjpError(hint) from exc
+            raise N3fjpError(msg) from exc
         self._buf = ""
         self._closed = False
         self._reader = threading.Thread(target=self._reader_loop, daemon=True)

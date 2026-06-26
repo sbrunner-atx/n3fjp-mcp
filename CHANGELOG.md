@@ -10,19 +10,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.1.2] - 2026-06-23
 
 ### Added
-- **Remote-host support via a one-command forwarder.** Claude Desktop runs the
-  MCP connector sandboxed so it can only reach `127.0.0.1`, not LAN addresses — so
-  a correct LAN IP for N3FJP on another computer still fails. New
-  `contest-mcp-forward` console script bridges `127.0.0.1:1100` to a remote
-  N3FJP. `contest-mcp-forward install --to <ip>` sets up a self-starting
-  background service (launchd on macOS, systemd on Linux, a logon Scheduled Task
-  on Windows), copies itself to a stable location, and tests the connection;
-  `status` / `uninstall` manage it; re-running `install` changes the IP. Then set
-  the connector host to `127.0.0.1`. See `docs/REMOTE-HOST.md`.
+- **`diagnostics` tool** (read-only, no N3FJP connection): reports the resolved
+  `N3FJP_HOST`/`PORT`, this process's Python/hostname, and the host's network
+  interfaces — so you can tell whether the process can even see the target's
+  network (e.g. host-side vs. sandboxed).
 
 ### Changed
-- The "could not reach N3FJP" error now detects a non-loopback host and explains
-  the loopback limitation and the forwarder fix inline.
+- **Structured connection errors.** The "could not reach N3FJP" message now
+  reports `target=host:port`, the symbolic `errno`
+  (ETIMEDOUT/EHOSTUNREACH/ENETUNREACH/ECONNREFUSED/ENOTFOUND), and host network
+  info — far more useful than the old "is N3FJP running?" text.
+- **Remote-host setups now use the standalone
+  [mcp-host-bridge](https://github.com/sbrunner-atx/mcp-host-bridge) tool**
+  instead of a bundled forwarder. A sandboxed MCP client (e.g. Claude Desktop)
+  can only reach loopback, so when N3FJP is on another computer you run
+  `mcp-host-bridge install n3fjp --to <ip>` on the client machine and set the
+  N3FJP host to `127.0.0.1`. Keeping the relay external keeps contest-mcp
+  universal across MCP clients. See `docs/REMOTE-HOST.md`.
 
 ## [0.1.1] - 2026-06-23
 

@@ -22,12 +22,13 @@ Permission model (set via tool annotations + a whole-database wipe gate):
 
 from __future__ import annotations
 
+import sys
 from typing import Any
 
 from mcp.server.fastmcp import FastMCP
 from mcp.types import ToolAnnotations
 
-from contest_mcp import methods
+from contest_mcp import diag, methods
 from contest_mcp.client import N3fjp
 from contest_mcp.config import Config
 from contest_mcp.methods import NOT_FOUND_ID, control_id, fmt_bool, fmt_freq_hz, resolve
@@ -123,6 +124,37 @@ def status() -> dict:
         "mode_contest": b.get("MODETEST"),
         "frequency": b.get("FREQ"),
         "db_wipe_enabled": config.allow_db_wipe,
+    }
+
+
+# --- diagnostics (read, no N3FJP connection) ---------------------------------
+
+
+@mcp.tool(annotations=READ_ONLY)
+def diagnostics() -> dict:
+    """Host + network diagnostics for troubleshooting connectivity.
+
+    Does NOT connect to N3FJP. Reports the resolved N3FJP_HOST/PORT, this
+    process's Python and hostname, and the host's network interfaces — so you can
+    tell whether the process can even see the target's network (e.g. when running
+    host-side vs. sandboxed).
+    """
+    net = diag.network_interfaces()
+    return {
+        "n3fjp_host": config.host,
+        "n3fjp_port": config.port,
+        "resolved_target": f"{config.host}:{config.port}",
+        "timeout_s": config.timeout,
+        "db_wipe_enabled": config.allow_db_wipe,
+        "python_executable": sys.executable,
+        "python_version": sys.version.split()[0],
+        "platform": sys.platform,
+        "hostname": net["hostname"],
+        "fqdn": net["fqdn"],
+        "primary_outbound_ip": net["primary_outbound_ip"],
+        "interface_command": net["interface_command"],
+        "ipv4_addresses": net["ipv4_addresses"],
+        "interfaces_raw": net["interfaces_raw"],
     }
 
 

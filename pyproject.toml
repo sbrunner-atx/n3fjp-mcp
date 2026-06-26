@@ -38,7 +38,6 @@ dev = [
 
 [project.scripts]
 contest-mcp = "contest_mcp.server:main"
-contest-mcp-forward = "contest_mcp.forward:main"
 
 [project.urls]
 Homepage = "https://github.com/sbrunner-atx/contest-mcp"

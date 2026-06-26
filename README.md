@@ -168,22 +168,23 @@ them.
 If N3FJP runs on the **same** computer as Claude Desktop (the common case), leave
 `N3FJP_HOST` at `127.0.0.1` and you're done.
 
-If N3FJP runs on a **different** computer, there's a catch: Claude Desktop runs
-the connector **sandboxed so it can only reach `127.0.0.1`, not LAN addresses** —
-so putting N3FJP's LAN IP in the settings will time out even though `telnet` to
-that IP works. The fix ships with the package as a one-command installer — run it
-on the Claude Desktop computer (macOS/Linux/Windows), then set the host to
-`127.0.0.1`:
+If N3FJP runs on a **different** computer, there's a catch: a **sandboxed** MCP
+client (notably Claude Desktop) runs the connector so it can only reach
+`127.0.0.1`, not LAN addresses — so putting N3FJP's LAN IP in the settings will
+time out even though `telnet` to that IP works. Fix it with the standalone
+[mcp-host-bridge](https://github.com/sbrunner-atx/mcp-host-bridge) tool on the
+client computer, then set the host to `127.0.0.1`:
 
 ```
-pipx install contest-mcp        # or pip install contest-mcp
-contest-mcp-forward install --to 192.168.1.50   # auto-starts on login, survives reboots
+pipx install mcp-host-bridge            # or download a binary from its releases
+mcp-host-bridge install n3fjp --to 192.168.1.50   # knows n3fjp = port 1100; auto-starts
 ```
 
-Manage it with `contest-mcp-forward status` / `uninstall`, and change the IP by
-re-running `install --to <new-ip>`. Full instructions (macOS, Windows, Linux) are
-in [docs/REMOTE-HOST.md](docs/REMOTE-HOST.md). Keep the link on a trusted LAN —
-the API is unauthenticated.
+Manage it with `mcp-host-bridge status n3fjp` / `uninstall n3fjp`. Full details
+are in [docs/REMOTE-HOST.md](docs/REMOTE-HOST.md) and the
+[mcp-host-bridge README](https://github.com/sbrunner-atx/mcp-host-bridge#readme).
+The `diagnostics` tool helps confirm whether you need it. Keep the link on a
+trusted LAN — the API is unauthenticated.
 
 ## Documentation
 

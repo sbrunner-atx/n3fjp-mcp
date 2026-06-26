@@ -36,6 +36,7 @@
   },
   "tools": [
     { "name": "status", "description": "Snapshot: program, version, API version, QSO count, band/mode/frequency." },
+    { "name": "diagnostics", "description": "Host + network diagnostics (no N3FJP connection): resolved host/port, interfaces, Python." },
     { "name": "query", "description": "Read-only program queries: paths, serial, QSO rate, band/mode/frequency." },
     { "name": "fields", "description": "Read entry-box values; list visible / all fields." },
     { "name": "search", "description": "List recent QSOs, search the log, dupe check, entity status." },
