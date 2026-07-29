@@ -237,7 +237,10 @@ def log(
       - set (field, value): write one entry box.
       - set_many (fields={...}): write several entry boxes.
       - calltab: run CALLTAB (after setting the call).
-      - enter: log the current form (returns records added).
+      - enter: log the current form. Returns records_added plus a `logged`
+        boolean derived from the QSO-count delta / ENTEREVENT — trust
+        `logged`, not records_added, which can report 0 on success in
+        networked mode. Do not retry when logged=true (creates duplicates).
       - clear: clear the entry form.
       - focus (field): move focus to a box (e.g. to auto-fill default RST).
 
@@ -264,11 +267,28 @@ def log(
     if operation in methods.ACTION_OPS:
         action, expect = methods.ACTION_OPS[operation]
         settle = CALLTAB_SETTLE if action == "CALLTAB" else 0.4
+        before = _qso_count() if operation == "enter" else None
         blocks = _send(build_cmd("ACTION", {"VALUE": action}), expect=expect, settle=settle)
-        events = _fmt(_n3fjp.drain_notifications())
+        raw_events = _n3fjp.drain_notifications()
+        events = _fmt(raw_events)
         out = {"operation": operation, "result": _fmt(blocks) or None}
-        if operation == "enter" and blocks:
-            out["records_added"] = blocks[0].value()
+        if operation == "enter":
+            reported = blocks[0].value() if blocks else None
+            out["records_added"] = reported
+            after = _qso_count()
+            if after is not None:
+                out["qso_count"] = after
+            # ENTERRESPONSE can report 0 even on success when N3FJP runs in
+            # networked (master-table) mode, where the commit is asynchronous
+            # (see docs/N3FJP-API.md gotchas). Confirm success via the
+            # QSO-count delta or an ENTEREVENT push, not the reported value.
+            # Field-proven at ARRL Field Day 2026: trusting records_added=0
+            # caused blind retries that produced duplicate log records.
+            enter_event = any(b.id == "ENTEREVENT" for b in raw_events)
+            if before is not None and after is not None:
+                out["logged"] = after > before or enter_event
+            else:
+                out["logged"] = enter_event or reported not in (None, "0", "")
         if events:
             out["events"] = events
         return out

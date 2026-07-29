@@ -1,0 +1,108 @@
+/* AE5VG amateur-radio field-guide brand — private, personal (not business) */
+@page {
+  size: A4;
+  margin: 18mm 16mm 20mm 16mm;
+  @bottom-left  { content: string(footerleft);  font-family: "DejaVu Sans Mono"; font-size: 6.5pt; letter-spacing: 2px; color: #8a8578; }
+  @bottom-right { content: counter(page, decimal-leading-zero); font-family: "DejaVu Sans Mono"; font-size: 6.5pt; letter-spacing: 2px; color: #8a8578; }
+}
+@page cover { margin: 0; @bottom-left { content: none } @bottom-right { content: none } }
+
+:root { }
+body { font-family: "DejaVu Sans"; font-size: 9.2pt; line-height: 1.5; color: #23211c; background: #FBFAF6; }
+.docmeta { string-set: footerleft content(); display: none; }
+
+/* ---------- COVER ---------- */
+.cover { page: cover; width: 210mm; height: 297mm; background: #14181D; color: #ECE7DA; position: relative; }
+.cover-inner { padding: 22mm 20mm 0 20mm; }
+.wordmark { display: flex; align-items: center; gap: 6mm; margin-bottom: 30mm; }
+.wm-badge { background: #E8A33D; color: #14181D; font-family: "DejaVu Sans Mono"; font-weight: bold;
+  font-size: 15pt; letter-spacing: 3px; padding: 3.2mm 4.5mm; }
+.wm-sub { font-family: "DejaVu Sans Mono"; font-size: 6.4pt; letter-spacing: 3.5px; color: #9aa3ad; }
+.morse { margin-top: 1.8mm; }
+.dit, .dah { display: inline-block; height: 1.5mm; background: #E8A33D; vertical-align: middle; margin-right: 1.2mm; }
+.dit { width: 1.5mm; border-radius: 50%; }
+.dah { width: 4.5mm; }
+.lgap { display: inline-block; width: 2.2mm; }
+.cover h1 { font-family: "DejaVu Sans Condensed"; font-weight: bold; font-size: 30pt; line-height: 1.08;
+  text-transform: uppercase; letter-spacing: 0.5px; color: #F4F0E6; margin: 0 0 7mm 0; }
+.cover .rule { width: 24mm; height: 1.6mm; background: #E8A33D; margin-bottom: 7mm; }
+.cover .blurb { font-size: 10.5pt; line-height: 1.65; color: #C9C3B4; max-width: 138mm; }
+.cover .blurb strong { color: #ECE7DA; }
+.statband { position: absolute; bottom: 0; left: 0; right: 0; background: #0D1014; padding: 10mm 20mm 12mm 20mm; }
+.statband .tagline { font-family: "DejaVu Sans Mono"; font-size: 6.8pt; letter-spacing: 3px; color: #9aa3ad; margin-bottom: 8mm; }
+.stats { display: flex; }
+.stat { width: 25%; }
+.stat .n { font-family: "DejaVu Sans Condensed"; font-weight: bold; font-size: 26pt; color: #E8A33D; }
+.stat .l { font-family: "DejaVu Sans Mono"; font-size: 6.4pt; letter-spacing: 2.5px; color: #9aa3ad; margin-top: 1.5mm; text-transform: uppercase; }
+.coverfoot { display: flex; justify-content: space-between; border-top: 0.4pt solid #2a313a; margin-top: 10mm; padding-top: 3.5mm;
+  font-family: "DejaVu Sans Mono"; font-size: 6.2pt; letter-spacing: 1.8px; color: #767f89; }
+
+/* ---------- CONTENT ---------- */
+.chapter { page-break-before: always; }
+.eyebrow { font-family: "DejaVu Sans Mono"; font-size: 7pt; letter-spacing: 3px; color: #B07617; text-transform: uppercase; margin-bottom: 2.5mm; }
+h2 { font-family: "DejaVu Sans Condensed"; font-weight: bold; font-size: 19pt; text-transform: uppercase;
+  color: #1B1F24; margin: 0 0 3mm 0; letter-spacing: 0.4px; }
+h2 + .rule, .h2rule { width: 13mm; height: 1.3mm; background: #E8A33D; margin-bottom: 5.5mm; }
+h3 { font-family: "DejaVu Sans"; font-weight: bold; font-size: 10.5pt; color: #1B1F24; margin: 6mm 0 2mm 0; }
+p { margin: 0 0 3.2mm 0; }
+.lead { font-size: 10pt; color: #4a463d; margin-bottom: 6mm; }
+code, .mono { font-family: "DejaVu Sans Mono"; font-size: 8.2pt; background: #F0EDE3; padding: 0.4mm 1.4mm; border-radius: 1mm; color: #3d3a32; }
+pre { font-family: "DejaVu Sans Mono"; font-size: 8pt; line-height: 1.55; background: #14181D; color: #D8D2C2;
+  padding: 4mm 5mm; border-radius: 1.5mm; margin: 3mm 0 5mm 0; white-space: pre-wrap; }
+pre .k { color: #E8A33D; }
+table { width: 100%; border-collapse: collapse; margin: 3mm 0 5.5mm 0; }
+th { font-family: "DejaVu Sans Mono"; font-size: 6.8pt; letter-spacing: 2px; text-transform: uppercase;
+  color: #8a8578; text-align: left; padding: 0 3mm 2mm 0; border-bottom: 0.7pt solid #23211c; }
+td { font-size: 8.8pt; padding: 2.4mm 3mm 2.4mm 0; border-bottom: 0.35pt solid #d8d3c4; vertical-align: top; }
+td.strong { font-weight: bold; }
+.callout { background: #F5EEDA; border-left: 1.6mm solid #E8A33D; padding: 3.5mm 4.5mm; margin: 5mm 0; }
+.callout .ct { font-family: "DejaVu Sans Mono"; font-size: 6.8pt; letter-spacing: 2.5px; color: #B07617; text-transform: uppercase; margin-bottom: 1.6mm; }
+.callout p { margin: 0; font-size: 8.8pt; }
+.warn { background: #F3E3DC; border-left-color: #C05B2E; }
+.warn .ct { color: #A34A22; }
+ol.steps, ul.tight { margin: 2mm 0 4mm 0; padding-left: 5mm; }
+ol.steps li, ul.tight li { margin-bottom: 2.2mm; }
+ul.tight li::marker { color: #B07617; }
+ol.steps li::marker { font-family: "DejaVu Sans Mono"; font-weight: bold; color: #B07617; }
+.numlist { counter-reset: item; margin: 3mm 0 5mm 0; }
+.numlist .item { display: flex; margin-bottom: 3.5mm; }
+.numlist .item .no { font-family: "DejaVu Sans Condensed"; font-weight: bold; font-size: 12pt; color: #E8A33D; width: 9mm; flex-shrink: 0; }
+.numlist .item .bd { flex: 1; }
+.numlist .item .bd b { display: block; margin-bottom: 0.8mm; }
+.flow { display: flex; gap: 2.5mm; margin: 4mm 0 5.5mm 0; }
+.fbox { flex: 1; border: 0.5pt solid #cfc9b8; padding: 3mm; background: #FFFEFA; }
+.fbox .fh { font-family: "DejaVu Sans Mono"; font-size: 6.6pt; letter-spacing: 2px; color: #B07617; text-transform: uppercase; margin-bottom: 1.6mm; }
+.fbox .fq { font-style: italic; font-size: 7.8pt; color: #4a463d; margin-bottom: 1.6mm; }
+.fbox .fs { font-family: "DejaVu Sans Mono"; font-size: 7pt; color: #23211c; }
+
+/* ---------- TOC ---------- */
+.toc-group { font-family: "DejaVu Sans Mono"; font-size: 7pt; letter-spacing: 2.5px; color: #B07617; text-transform: uppercase; margin: 5mm 0 2mm 0; }
+.toc-row { display: flex; align-items: baseline; margin-bottom: 1.8mm; }
+.toc-row .tno { font-family: "DejaVu Sans Mono"; font-size: 7pt; color: #8a8578; width: 8mm; flex-shrink: 0; }
+.toc-row .tt { font-weight: bold; font-size: 9.5pt; }
+.toc-row .tt a { color: #23211c; text-decoration: none; }
+.toc-row .leader { flex: 1; border-bottom: 0.5pt dotted #b6b0a0; margin: 0 2mm; }
+.toc-row .tp a { font-family: "DejaVu Sans Mono"; font-size: 8pt; color: #23211c; text-decoration: none; }
+.toc-row .tp a::after { content: target-counter(attr(href url), page, decimal-leading-zero); }
+
+/* ---------- Transcript (worked examples) ---------- */
+.qso { border: 0.5pt solid #cfc9b8; background: #FFFEFA; margin: 4mm 0 6mm 0; }
+.qso .qh { background: #14181D; color: #ECE7DA; padding: 2.5mm 4mm; display: flex; justify-content: space-between; }
+.qso .qh .qt { font-family: "DejaVu Sans Condensed"; font-weight: bold; font-size: 10.5pt; text-transform: uppercase; letter-spacing: 0.5px; }
+.qso .qh .qm { font-family: "DejaVu Sans Mono"; font-size: 6.8pt; letter-spacing: 2px; color: #E8A33D; align-self: center; }
+.qso .qbody { padding: 3mm 4mm; }
+.xline { display: flex; margin-bottom: 1.8mm; }
+.xline .dir { font-family: "DejaVu Sans Mono"; font-weight: bold; font-size: 6.6pt; letter-spacing: 1px; width: 11mm; flex-shrink: 0; padding-top: 0.7mm; }
+.xline.tx .dir { color: #B07617; }
+.xline.rx .dir { color: #4a7a8c; }
+.xline .txt { font-family: "DejaVu Sans Mono"; font-size: 7.8pt; line-height: 1.45; color: #23211c; }
+.xline.note { margin: 2mm 0; }
+.xline.note .txt { font-family: "DejaVu Sans"; font-style: italic; font-size: 8.2pt; color: #6b665a; }
+.qso .verdict { border-top: 0.5pt solid #cfc9b8; padding: 2.2mm 4mm; font-size: 8.2pt; }
+.qso .verdict b { font-family: "DejaVu Sans Mono"; font-size: 7pt; letter-spacing: 1.5px; }
+.ok b { color: #4a7a3d; } .bad b { color: #A34A22; }
+
+/* ---------- Skills at a glance ---------- */
+table.glance td { font-size: 8.4pt; }
+table.glance td.get { color: #B07617; }
+.qso { page-break-inside: avoid; }

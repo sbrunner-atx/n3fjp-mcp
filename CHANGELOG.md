@@ -7,6 +7,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- **`log → enter` now returns a `logged` boolean** (and `qso_count`),
+  derived from the QSO-count delta and/or an ENTEREVENT push — the same
+  success signal `log_qso` already used. ENTERRESPONSE can report 0 on a
+  QSO that was written (networked/master-table mode commits
+  asynchronously), and trusting it caused blind retries and duplicate log
+  records at ARRL Field Day 2026. Clients should retry only when
+  `logged` is false.
+
+### Added
+- **`contest-operating` agent skill** (`skills/contest-operating/SKILL.md`),
+  bundled in the repo and the `.mcpb` package. Distills the contest QSO
+  state machine field-proven at ARRL Field Day 2026: CQ → exchange → TU →
+  log cadence, the special-case playbook (QRM CQers, garbled callsigns,
+  doubling, no-copy repeats, callsign-only callers), and the verified
+  N3FJP logging sequence (`set_many → enter`, ENTEREVENT as the success
+  signal, dupe-record caveat). README now has a **Skills** section.
+- **Operating Skills Field Guide** (`docs/operating-skills-field-guide.pdf`)
+  covering this skill and fldigi-mcp's `fldigi-operating`: skills at a
+  glance, TOC, installation, a plain-language "Your first session — Claude
+  for hams" chapter for operators new to AI, the six-rule operating
+  standard, the special-case playbook, and worked examples transcribed from
+  ARRL Field Day 2026. Regenerable HTML/CSS sources under `docs/brand/`
+  (AE5VG personal amateur-radio brand — dark ink, signal amber, Morse
+  wordmark).
+- **Field Day 2026 after-action report**
+  (`docs/LESSONS-FIELD-DAY-2026.md`): the full lessons-learned handoff
+  from running an autonomous BPSK31 Field Day station with contest-mcp +
+  fldigi-mcp, including recommended improvements for future development.
+
 ## [0.1.2] - 2026-06-23
 
 ### Added

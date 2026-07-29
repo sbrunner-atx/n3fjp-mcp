@@ -210,6 +210,33 @@ Corrections and additions are welcome — please
 ### Project docs
 
 - [Install guide](docs/INSTALL.md) and [Test plan](docs/TEST-PLAN.md).
+- [Field Day 2026 lessons learned](docs/LESSONS-FIELD-DAY-2026.md) — the
+  full after-action report from running an autonomous BPSK31 Field Day
+  station (class 2A, callsigns anonymized) with contest-mcp + fldigi-mcp: the operating
+  loop, special cases encountered live, and recommended improvements.
+
+## Skills
+
+The [`skills/`](skills/) directory contains agent skills — operating
+procedures distilled from live on-air use — bundled with the repo and the
+`.mcpb` package:
+
+- **[contest-operating](skills/contest-operating/SKILL.md)** — the contest
+  QSO state machine (CQ → exchange → TU → log), the special-case playbook
+  (QRM, garbled callsigns, doubling, no-copy repeats, callsign-only
+  callers), and the verified N3FJP logging sequence with its known quirks.
+  Field-proven during ARRL Field Day 2026.
+
+The **[Operating Skills Field Guide](docs/operating-skills-field-guide.pdf)**
+(PDF) documents this skill and its companion `fldigi-operating` from the
+sibling [fldigi-mcp](https://github.com/sbrunner-atx/fldigi-mcp) — skills at
+a glance, installation, a plain-language "first session" chapter for hams
+new to Claude, the operating standard, the special-case playbook, and worked
+examples transcribed from ARRL Field Day 2026.
+
+To use with Claude Code / Cowork, copy the skill directory into your
+`~/.claude/skills/` (or a project's `.claude/skills/`). Pair it with the
+`fldigi-operating` skill from fldigi-mcp for radio control.
 
 ## Development
 
