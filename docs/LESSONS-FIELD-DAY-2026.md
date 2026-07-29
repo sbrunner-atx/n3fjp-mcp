@@ -83,7 +83,7 @@ A single `set_many → enter` sequence reliably returned `records_added: 0` (no 
 ## 5. Special Cases Encountered
 
 ### 5a. Garbled / partial callsign
-Received `PSE CPY 3A OH 3A OH DE WeaCCA K` — callsign unreadable. Sent AGN, no reply. **Decision: send one AGN, wait one poll, if no improvement return to CQ.** Do not spend more than two overs trying to decode a station with a consistently bad signal.
+Received `PSE CPY 3A OH 3A OH DE WeaGKe K` — callsign unreadable. Sent AGN, no reply. **Decision: send one AGN, wait one poll, if no improvement return to CQ.** Do not spend more than two overs trying to decode a station with a consistently bad signal.
 
 ### 5b. Another station CQing on our frequency (QRM)
 W5MNO was also calling CQ FD and their signal was decoded interleaved with ours. PSK31 is narrowband and multiple stations coexist on the same audio passband — fldigi decodes whichever signal it is tuned to. When the RX buffer contains a CQ that uses a different callsign (not K6ABC), it is not our caller and should be ignored. **Detection rule:** a line starting with "CQ FD" containing a callsign other than K6ABC = ignore.

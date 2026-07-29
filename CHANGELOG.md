@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-07-29
+
+### Fixed
+- Field guide and lessons doc: coherent pseudonymization of garbled
+  callsign fragments in the worked-example transcripts (fragments are now
+  fragments of the sample calls, not of any real callsign).
+
 ## [0.2.0] - 2026-07-29
 
 ### Changed
@@ -110,7 +117,8 @@ Initial release.
   machine-readable spec, an install guide, and a live test plan. The API
   reference and spec were verified live against N3FJP API version 2.2.
 
-[Unreleased]: https://github.com/sbrunner-atx/contest-mcp/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/sbrunner-atx/contest-mcp/compare/v0.2.1...HEAD
+[0.2.1]: https://github.com/sbrunner-atx/contest-mcp/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/sbrunner-atx/contest-mcp/compare/v0.1.2...v0.2.0
 [0.1.2]: https://github.com/sbrunner-atx/contest-mcp/releases/tag/v0.1.2
 [0.1.1]: https://github.com/sbrunner-atx/contest-mcp/releases/tag/v0.1.1
