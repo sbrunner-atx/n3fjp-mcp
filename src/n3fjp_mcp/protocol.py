@@ -7,7 +7,7 @@ envelopes back to back.
 
 Everything here is deliberately free of sockets and threads so it can be unit
 tested without a running N3FJP instance. The socket plumbing lives in
-:mod:`contest_mcp.client`.
+:mod:`n3fjp_mcp.client`.
 """
 
 from __future__ import annotations

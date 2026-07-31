@@ -1,13 +1,13 @@
-# Contributing to contest-mcp
+# Contributing to n3fjp-mcp
 
-Thanks for your interest in improving contest-mcp! This is an experimental,
+Thanks for your interest in improving n3fjp-mcp! This is an experimental,
 community project (MIT licensed) and contributions are welcome.
 
 ## Development setup
 
 ```bash
-git clone https://github.com/sbrunner-atx/contest-mcp.git
-cd contest-mcp
+git clone https://github.com/sbrunner-atx/n3fjp-mcp.git
+cd n3fjp-mcp
 uv sync
 ```
 
@@ -19,7 +19,7 @@ uv sync
 ## Project layout
 
 ```
-src/contest_mcp/
+src/n3fjp_mcp/
   config.py     # env-var configuration (N3FJP_HOST/PORT/TIMEOUT/ALLOW_DB_WIPE)
   protocol.py   # pure wire helpers: build/parse <CMD> blocks, SQL-wipe check
   client.py     # persistent TCP client + reader thread + notification buffer
@@ -50,7 +50,7 @@ so they can be unit-tested in isolation. Keep new wire logic there where possibl
 
 Please include your N3FJP program and version, the API version (from the `status`
 tool), the command/operation, and the raw `<CMD>` exchange if you can capture it.
-Use the [thumbs-down / issues](https://github.com/sbrunner-atx/contest-mcp/issues)
+Use the [thumbs-down / issues](https://github.com/sbrunner-atx/n3fjp-mcp/issues)
 to report problems.
 
 ## License

@@ -2,7 +2,7 @@
 
 N3FJP (the server) listens on TCP, default port 1100. This client keeps a single
 persistent connection with a background reader thread that splits the incoming
-byte stream into ``<CMD>…</CMD>`` blocks (see :mod:`contest_mcp.protocol`).
+byte stream into ``<CMD>…</CMD>`` blocks (see :mod:`n3fjp_mcp.protocol`).
 
 Because the same stream carries both responses and opt-in push notifications, the
 reader routes each parsed block to whichever command is currently waiting for it,
@@ -21,8 +21,8 @@ import time
 from collections import deque
 from collections.abc import Callable
 
-from contest_mcp import diag
-from contest_mcp.protocol import (
+from n3fjp_mcp import diag
+from n3fjp_mcp.protocol import (
     CRLF,
     Block,
     extract_blocks,
@@ -49,7 +49,7 @@ class N3fjp:
 
     Construction is cheap and opens no socket; the first command connects. Host
     and port default to N3FJP's defaults but are normally supplied from
-    :class:`contest_mcp.config.Config`.
+    :class:`n3fjp_mcp.config.Config`.
     """
 
     def __init__(

@@ -13,10 +13,10 @@ Claude Desktop) runs elsewhere, there's a catch: the client runs the connector
 **sandboxed so it can only reach `127.0.0.1`, not LAN addresses**. So entering
 N3FJP's LAN IP (e.g. `192.168.1.50`) in the settings will *time out* — even though
 `telnet` to that IP works from a terminal. It's a security sandbox, not a bug, and
-it's a property of the **client**, not of contest-mcp.
+it's a property of the **client**, not of n3fjp-mcp.
 
 The fix is a tiny relay that runs on the client computer, listens on `127.0.0.1`,
-and forwards to the remote N3FJP. Rather than bundle that here, contest-mcp uses
+and forwards to the remote N3FJP. Rather than bundle that here, n3fjp-mcp uses
 the standalone, reusable tool **[mcp-host-bridge](https://github.com/sbrunner-atx/mcp-host-bridge)**
 (it serves fldigi and other local MCPs too).
 
@@ -32,7 +32,7 @@ the standalone, reusable tool **[mcp-host-bridge](https://github.com/sbrunner-at
    ```
    This sets up a self-starting background service (launchd on macOS, `netsh`
    portproxy on Windows, systemd on Linux) and tests the connection.
-3. In the **contest-mcp settings**, set **N3FJP host = `127.0.0.1`** (port
+3. In the **n3fjp-mcp settings**, set **N3FJP host = `127.0.0.1`** (port
    `1100`), Save, then fully quit and reopen the client.
 
 Manage it with `mcp-host-bridge status n3fjp` / `uninstall n3fjp`, and change the
@@ -41,7 +41,7 @@ N3FJP IP by re-running `install n3fjp --to <new-ip>`. Full instructions are in t
 
 ## Troubleshooting
 
-Run contest-mcp's **`diagnostics`** tool (it does not connect to N3FJP). It
+Run n3fjp-mcp's **`diagnostics`** tool (it does not connect to N3FJP). It
 reports the resolved `N3FJP_HOST`/`PORT`, this process's hostname/Python, and the
 host's network interfaces — so you can see whether the process can even reach the
 `192.168.x` network, and whether you need the bridge above.

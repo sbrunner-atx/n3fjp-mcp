@@ -22,7 +22,7 @@
     <h1>The Operating<br>Skills</h1>
     <div class="rule"></div>
     <p class="blurb">A field guide to the operating skills bundled with
-    <strong>fldigi-mcp</strong> and <strong>contest-mcp</strong> — how an agent keys the
+    <strong>fldigi-mcp</strong> and <strong>n3fjp-mcp</strong> — how an agent keys the
     transmitter and returns to receive at the exact instant an over ends, runs a contest QSO
     from CQ to logged contact, and survives everything a real band throws at it. Every rule
     in this guide was proven on the air.</p>
@@ -84,7 +84,7 @@
       <td class="get">Instant TX→RX handoff + a caller never ignored</td>
     </tr>
     <tr>
-      <td>02</td><td class="strong">contest-operating</td><td class="mono">contest-mcp</td>
+      <td>02</td><td class="strong">contest-operating</td><td class="mono">n3fjp-mcp</td>
       <td>The contest: the QSO state machine from CQ to logged contact, the special-case
           playbook, and verified N3FJP logging.</td>
       <td class="get">Completed exchanges + a clean, duplicate-free log</td>
@@ -110,7 +110,7 @@
   <h3>In Claude Desktop <span class="mono">.mcpb bundle — recommended</span></h3>
   <div class="numlist">
     <div class="item"><div class="no">1</div><div class="bd"><b>Install the bundles.</b>
-      Double-click <code>fldigi-mcp.mcpb</code> and <code>contest-mcp.mcpb</code> (or add them
+      Double-click <code>fldigi-mcp.mcpb</code> and <code>n3fjp-mcp.mcpb</code> (or add them
       under Settings → Extensions). Each bundle carries its skill at
       <code>skills/&lt;name&gt;/SKILL.md</code> plus this guide.</div></div>
     <div class="item"><div class="no">2</div><div class="bd"><b>Set the transmit gate.</b>
@@ -125,7 +125,7 @@
       <code>.claude/skills/</code>): <code>skills/fldigi-operating/</code> and
       <code>skills/contest-operating/</code>.</div></div>
     <div class="item"><div class="no">2</div><div class="bd"><b>Connect the MCP servers</b>
-      (<code>uvx fldigi-mcp</code>, <code>uvx contest-mcp</code> or from the repos) so the tools
+      (<code>uvx fldigi-mcp</code>, <code>uvx n3fjp-mcp</code> or from the repos) so the tools
       the skills reference are available.</div></div>
   </div>
 
@@ -175,7 +175,7 @@
     <div class="item"><div class="no">3</div><div class="bd"><b>Add the two extensions.</b>
       Double-click <code>fldigi-mcp.mcpb</code>, click Install when Claude Desktop opens, and
       enter your callsign when asked — that callsign is the transmit gate. Repeat with
-      <code>contest-mcp.mcpb</code>. Done — this is a one-time step.</div></div>
+      <code>n3fjp-mcp.mcpb</code>. Done — this is a one-time step.</div></div>
     <div class="item"><div class="no">4</div><div class="bd"><b>Say hello.</b>
       Open a new chat and type: <i>&ldquo;What's the fldigi status?&rdquo;</i> If mode, frequency,
       and T/R state come back, your station is connected.</div></div>
@@ -286,7 +286,7 @@
     <div class="ct">Why this exists</div>
     <p>These skills were built by running one real autonomous Field Day session and keeping the
     after-action report — the full account is in
-    <code>contest-mcp/docs/LESSONS-FIELD-DAY-2026.md</code>, and the worked examples in chapter F
+    <code>n3fjp-mcp/docs/LESSONS-FIELD-DAY-2026.md</code>, and the worked examples in chapter F
     retell it verbatim.</p>
   </div>
 </div>
@@ -332,7 +332,7 @@
 
 <!-- ============ 02 · CONTEST ============ -->
 <div class="chapter" id="contest">
-  <div class="eyebrow">Skill 02 · ships with contest-mcp</div>
+  <div class="eyebrow">Skill 02 · ships with n3fjp-mcp</div>
   <h2>contest-operating</h2>
   <div class="h2rule"></div>
   <p class="lead">Governs the contest: what to say in each state, when a QSO is real, and when it
@@ -493,17 +493,17 @@
   autonomous contest session.</p>
   <p>At ARRL Field Day 2026, a class-2A club station ran 20-meter
   BPSK31 with an agent operating fldigi and N3FJP through <code>fldigi-mcp</code> and
-  <code>contest-mcp</code> — calling CQ, working callers, and logging contacts, with the human
+  <code>n3fjp-mcp</code> — calling CQ, working callers, and logging contacts, with the human
   operator supervising and able to stop transmission at any moment. Every rule, timing, and
   special case in this guide comes from that session's after-action report,
-  <code>contest-mcp/docs/LESSONS-FIELD-DAY-2026.md</code>.</p>
+  <code>n3fjp-mcp/docs/LESSONS-FIELD-DAY-2026.md</code>.</p>
   <table>
     <tr><th style="width:32%">Resource</th><th>Where</th></tr>
     <tr><td class="strong">fldigi-mcp</td><td class="mono">github.com/sbrunner-atx/fldigi-mcp · PyPI: fldigi-mcp</td></tr>
-    <tr><td class="strong">contest-mcp</td><td class="mono">github.com/sbrunner-atx/contest-mcp · PyPI: contest-mcp</td></tr>
+    <tr><td class="strong">n3fjp-mcp</td><td class="mono">github.com/sbrunner-atx/n3fjp-mcp · PyPI: n3fjp-mcp</td></tr>
     <tr><td class="strong">Skill sources</td><td class="mono">&lt;repo&gt;/skills/&lt;name&gt;/SKILL.md</td></tr>
     <tr><td class="strong">This guide's sources</td><td class="mono">&lt;repo&gt;/docs/brand/ (HTML + CSS, WeasyPrint)</td></tr>
-    <tr><td class="strong">After-action report</td><td class="mono">contest-mcp/docs/LESSONS-FIELD-DAY-2026.md</td></tr>
+    <tr><td class="strong">After-action report</td><td class="mono">n3fjp-mcp/docs/LESSONS-FIELD-DAY-2026.md</td></tr>
   </table>
   <p>Corrections and additions are welcome — open an issue on either repository.</p>
   <div class="callout">

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Phase 0 smoke test for contest-mcp.
+Phase 0 smoke test for n3fjp-mcp.
 
 Goal: prove this machine can talk to a running N3FJP instance over its TCP API,
 using ONLY the Python standard library (socket) — exactly the way the real MCP

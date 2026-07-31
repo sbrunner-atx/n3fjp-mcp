@@ -1,4 +1,4 @@
-"""contest-mcp — log amateur-radio QSOs to N3FJP software from MCP clients.
+"""n3fjp-mcp — log amateur-radio QSOs to N3FJP software from MCP clients.
 
 Every program in the N3FJP Software suite (Amateur Contact Log and the contest
 loggers) exposes the same TCP control API. This package speaks that protocol
@@ -10,4 +10,4 @@ It is the logging half of an "operate → log" workflow; its sibling project
 ``fldigi-mcp`` operates the radio.
 """
 
-__version__ = "0.2.1"
+__version__ = "0.3.0"

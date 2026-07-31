@@ -4,8 +4,8 @@ from __future__ import annotations
 
 import pytest
 
-from contest_mcp import methods
-from contest_mcp.methods import (
+from n3fjp_mcp import methods
+from n3fjp_mcp.methods import (
     UnknownOperation,
     control_id,
     fmt_bool,

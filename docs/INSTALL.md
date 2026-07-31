@@ -1,4 +1,4 @@
-# Installing contest-mcp — Operator's Guide
+# Installing n3fjp-mcp — Operator's Guide
 
 This lets you log contacts in **N3FJP** by chatting with Claude — for example
 *"log W1AW, 2A in STX"* or *"how many QSOs do we have?"*. No programming, no
@@ -32,8 +32,8 @@ You do **not** need Python or anything technical — Claude Desktop handles that
 
 ## Step 1 — Download the extension
 
-1. Go to **<https://github.com/sbrunner-atx/contest-mcp/releases/latest>**
-2. Under **Assets**, click **`contest-mcp.mcpb`** to download it.
+1. Go to **<https://github.com/sbrunner-atx/n3fjp-mcp/releases/latest>**
+2. Under **Assets**, click **`n3fjp-mcp.mcpb`** to download it.
 
 ## Step 2 — Install it in Claude Desktop
 
@@ -41,7 +41,7 @@ You do **not** need Python or anything technical — Claude Desktop handles that
 2. Open **Settings** (the Claude menu, or the gear/⚙︎ icon).
 3. Click **Extensions**.
 4. Click **Advanced settings**, then **Install Extension…**.
-5. Choose the **`contest-mcp.mcpb`** file you just downloaded, and **Install**.
+5. Choose the **`n3fjp-mcp.mcpb`** file you just downloaded, and **Install**.
 
 > Tip: the **Install Extension…** button lives under **Advanced settings** —
 > that's the spot people tend to miss.
@@ -104,5 +104,5 @@ encrypted or authenticated.
 
 ## Updating
 
-Download the newest `contest-mcp.mcpb` from the releases page and install it the
+Download the newest `n3fjp-mcp.mcpb` from the releases page and install it the
 same way — it replaces the old one.

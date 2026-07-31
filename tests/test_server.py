@@ -8,8 +8,8 @@ from __future__ import annotations
 
 import pytest
 
-from contest_mcp import server
-from contest_mcp.protocol import Block, parse_block
+from n3fjp_mcp import server
+from n3fjp_mcp.protocol import Block, parse_block
 
 
 class FakeN3fjp:

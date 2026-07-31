@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-07-31
+
+### Changed
+- **Renamed the project `contest-mcp` → `n3fjp-mcp`** (with the permission of the
+  N3FJP name owner). The PyPI package, the console script, and the Python module
+  are now `n3fjp-mcp` / `n3fjp_mcp`; the GitHub repo and MCP-registry name moved to
+  `sbrunner-atx/n3fjp-mcp` / `io.github.sbrunner-atx/n3fjp-mcp`. Host-side
+  registration is now `python -m n3fjp_mcp.server`. The legacy `contest-mcp`
+  package/registry entry remains as a pointer; install `n3fjp-mcp` going forward.
+- **Added a prominent non-affiliation notice** (README, `.mcpb` description, docs,
+  Field Guide): independent project, using the N3FJP name with permission, **not
+  affiliated with / endorsed by / supported by N3FJP Software (Affirmatech)** —
+  support goes to this project's issue tracker, not to N3FJP.
+
 ## [0.2.1] - 2026-07-29
 
 ### Fixed
@@ -43,7 +57,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   wordmark).
 - **Field Day 2026 after-action report**
   (`docs/LESSONS-FIELD-DAY-2026.md`): the full lessons-learned handoff
-  from running an autonomous BPSK31 Field Day station with contest-mcp +
+  from running an autonomous BPSK31 Field Day station with n3fjp-mcp +
   fldigi-mcp, including recommended improvements for future development.
 
 ## [0.1.2] - 2026-06-23
@@ -64,7 +78,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   instead of a bundled forwarder. A sandboxed MCP client (e.g. Claude Desktop)
   can only reach loopback, so when N3FJP is on another computer you run
   `mcp-host-bridge install n3fjp --to <ip>` on the client machine and set the
-  N3FJP host to `127.0.0.1`. Keeping the relay external keeps contest-mcp
+  N3FJP host to `127.0.0.1`. Keeping the relay external keeps n3fjp-mcp
   universal across MCP clients. See `docs/REMOTE-HOST.md`.
 
 ## [0.1.1] - 2026-06-23
@@ -117,9 +131,10 @@ Initial release.
   machine-readable spec, an install guide, and a live test plan. The API
   reference and spec were verified live against N3FJP API version 2.2.
 
-[Unreleased]: https://github.com/sbrunner-atx/contest-mcp/compare/v0.2.1...HEAD
-[0.2.1]: https://github.com/sbrunner-atx/contest-mcp/compare/v0.2.0...v0.2.1
-[0.2.0]: https://github.com/sbrunner-atx/contest-mcp/compare/v0.1.2...v0.2.0
-[0.1.2]: https://github.com/sbrunner-atx/contest-mcp/releases/tag/v0.1.2
-[0.1.1]: https://github.com/sbrunner-atx/contest-mcp/releases/tag/v0.1.1
-[0.1.0]: https://github.com/sbrunner-atx/contest-mcp/releases/tag/v0.1.0
+[Unreleased]: https://github.com/sbrunner-atx/n3fjp-mcp/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/sbrunner-atx/n3fjp-mcp/compare/v0.2.1...v0.3.0
+[0.2.1]: https://github.com/sbrunner-atx/n3fjp-mcp/compare/v0.2.0...v0.2.1
+[0.2.0]: https://github.com/sbrunner-atx/n3fjp-mcp/compare/v0.1.2...v0.2.0
+[0.1.2]: https://github.com/sbrunner-atx/n3fjp-mcp/releases/tag/v0.1.2
+[0.1.1]: https://github.com/sbrunner-atx/n3fjp-mcp/releases/tag/v0.1.1
+[0.1.0]: https://github.com/sbrunner-atx/n3fjp-mcp/releases/tag/v0.1.0

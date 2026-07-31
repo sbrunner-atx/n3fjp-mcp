@@ -1,4 +1,4 @@
-"""contest-mcp: an MCP server that logs amateur-radio QSOs to N3FJP software.
+"""n3fjp-mcp: an MCP server that logs amateur-radio QSOs to N3FJP software.
 
 Tools are organised into logical **groups** (one permission each) rather than one
 tool per command. Each group tool takes an ``operation`` argument, and every
@@ -28,14 +28,14 @@ from typing import Any
 from mcp.server.fastmcp import FastMCP
 from mcp.types import ToolAnnotations
 
-from contest_mcp import diag, methods
-from contest_mcp.client import N3fjp
-from contest_mcp.config import Config
-from contest_mcp.methods import NOT_FOUND_ID, control_id, fmt_bool, fmt_freq_hz, resolve
-from contest_mcp.protocol import Block, build_cmd, is_db_wipe_sql
+from n3fjp_mcp import diag, methods
+from n3fjp_mcp.client import N3fjp
+from n3fjp_mcp.config import Config
+from n3fjp_mcp.methods import NOT_FOUND_ID, control_id, fmt_bool, fmt_freq_hz, resolve
+from n3fjp_mcp.protocol import Block, build_cmd, is_db_wipe_sql
 
 config = Config.from_env()
-mcp = FastMCP("contest-mcp")
+mcp = FastMCP("n3fjp-mcp")
 _n3fjp = N3fjp(config.host, config.port, timeout=config.timeout)
 
 READ_ONLY = ToolAnnotations(readOnlyHint=True)

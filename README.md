@@ -1,13 +1,13 @@
-# contest-mcp
+# n3fjp-mcp
 
-<!-- mcp-name: io.github.sbrunner-atx/contest-mcp -->
+<!-- mcp-name: io.github.sbrunner-atx/n3fjp-mcp -->
 
 An [MCP](https://modelcontextprotocol.io/) server for **logging amateur-radio
 QSOs** to [N3FJP logging software](https://www.n3fjp.com/) — Amateur Contact Log
 and the 100-plus N3FJP contest loggers — from MCP-aware clients such as Claude
 Desktop.
 
-Every program in the N3FJP suite shares one TCP control API. `contest-mcp` speaks
+Every program in the N3FJP suite shares one TCP control API. `n3fjp-mcp` speaks
 that protocol directly (Python's standard-library `socket`, no third-party
 wrapper) and exposes it as a small set of logically-grouped MCP tools, so an
 assistant can log contacts, read the log, run dupe checks, and manage band/mode
@@ -16,13 +16,18 @@ through plain language.
 It is the **logging** half of an "operate → log" workflow; its sibling project
 [`fldigi-mcp`](https://github.com/sbrunner-atx/fldigi-mcp) operates the radio.
 
-> **Status:** experimental (v0.1). Verified live against N3FJP's ARRL Field Day
+> **Status:** experimental (v0.3). Verified live against N3FJP's ARRL Field Day
 > Contest Log, **API version 2.2**. The protocol is shared across the suite, but
 > field sets vary per contest — confirm with the `fields` tool.
 
-> The project is named **contest-mcp** (not "n3fjp-mcp") to avoid any conflict
-> with the N3FJP name and callsign. It is an independent project and is not
-> affiliated with or endorsed by Affirmatech / N3FJP.
+> ## ⚠️ Independent project — not affiliated with N3FJP
+>
+> `n3fjp-mcp` is an independent, community project by **Stefan Brunner (AE5VG)**,
+> using the "N3FJP" name with the permission of its owner. It is **not affiliated
+> with, endorsed by, or supported by N3FJP Software / Affirmatech**. Please direct
+> **all support questions for this app to
+> [its issue tracker](https://github.com/sbrunner-atx/n3fjp-mcp/issues) — not to
+> N3FJP**. MIT licensed. "N3FJP" is the callsign and trademark of its owner.
 
 ## Highlights
 
@@ -61,8 +66,8 @@ For **development from source** you additionally need **Python 3.10+** and
 
 ### Easiest: one-click desktop extension
 
-Download `contest-mcp.mcpb` from the latest
-[release](https://github.com/sbrunner-atx/contest-mcp/releases), then in Claude
+Download `n3fjp-mcp.mcpb` from the latest
+[release](https://github.com/sbrunner-atx/n3fjp-mcp/releases), then in Claude
 Desktop go to **Settings → Extensions → Advanced settings → Install Extension…**
 and choose the file. A short settings form asks for the host/port (defaults to
 `127.0.0.1:1100`). **No terminal, no Python, no uv to install.**
@@ -72,8 +77,8 @@ and choose the file. A short settings form asks for the host/port (defaults to
 ### From source (development)
 
 ```bash
-git clone https://github.com/sbrunner-atx/contest-mcp.git
-cd contest-mcp
+git clone https://github.com/sbrunner-atx/n3fjp-mcp.git
+cd n3fjp-mcp
 uv sync
 ```
 
@@ -85,7 +90,7 @@ Then add it to Claude Desktop's config
   "mcpServers": {
     "contest": {
       "command": "uv",
-      "args": ["--directory", "/absolute/path/to/contest-mcp", "run", "contest-mcp"],
+      "args": ["--directory", "/absolute/path/to/n3fjp-mcp", "run", "n3fjp-mcp"],
       "env": { "N3FJP_HOST": "127.0.0.1", "N3FJP_PORT": "1100" }
     }
   }
@@ -97,7 +102,7 @@ Restart Claude Desktop and ask *"What's the N3FJP status?"*.
 ### Try it with the MCP Inspector
 
 ```bash
-uv run mcp dev src/contest_mcp/server.py
+uv run mcp dev src/n3fjp_mcp/server.py
 ```
 
 ## Tools
@@ -159,7 +164,7 @@ here is about your **log database**:
   stern warning in the settings form. **Back up your log before ever enabling
   it.**
 
-Wherever possible, `contest-mcp` leans on N3FJP's own validation (it dupe-checks
+Wherever possible, `n3fjp-mcp` leans on N3FJP's own validation (it dupe-checks
 and reports oddities) and surfaces those responses rather than re-implementing
 them.
 
@@ -205,14 +210,14 @@ guide and are sharing it freely to give back to the community:
   terse, structured command catalog suitable for code generation.
 
 Corrections and additions are welcome — please
-[open an issue or PR](https://github.com/sbrunner-atx/contest-mcp/issues).
+[open an issue or PR](https://github.com/sbrunner-atx/n3fjp-mcp/issues).
 
 ### Project docs
 
 - [Install guide](docs/INSTALL.md) and [Test plan](docs/TEST-PLAN.md).
 - [Field Day 2026 lessons learned](docs/LESSONS-FIELD-DAY-2026.md) — the
   full after-action report from running an autonomous BPSK31 Field Day
-  station (class 2A, callsigns anonymized) with contest-mcp + fldigi-mcp: the operating
+  station (class 2A, callsigns anonymized) with n3fjp-mcp + fldigi-mcp: the operating
   loop, special cases encountered live, and recommended improvements.
 
 ## Skills

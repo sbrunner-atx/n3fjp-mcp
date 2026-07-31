@@ -1,4 +1,4 @@
-# contest-mcp — Test Plan
+# n3fjp-mcp — Test Plan
 
 A repeatable plan to verify the server end to end against a real N3FJP instance,
 whether running from source or as the installed `.mcpb` extension. Most tests are
@@ -11,7 +11,7 @@ read-only or self-restoring; record-writing tests are clearly marked.
 - For logging tests: N3FJP is **standalone** (Settings → Network off) *or* its
   networking server is reachable — otherwise `ENTER` returns 0 records and N3FJP
   shows "Server Failed to Respond".
-- The MCP client (Claude Desktop or the MCP Inspector) shows the contest-mcp tools.
+- The MCP client (Claude Desktop or the MCP Inspector) shows the n3fjp-mcp tools.
 - A scratch/practice log you don't mind writing to for the logging tests.
 
 ## Conventions

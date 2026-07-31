@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate an original contest-mcp icon: a logbook with a logged-QSO check and
+"""Generate an original n3fjp-mcp icon: a logbook with a logged-QSO check and
 radio waves. Renders at 4x then downsamples for crisp anti-aliasing."""
 from PIL import Image, ImageDraw
 

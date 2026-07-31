@@ -1,18 +1,18 @@
 ---
 title: "The N3FJP TCP API — A Field-Tested Reference"
 subtitle: "A complete, developer-friendly guide, verified live against API version 2.2"
-author: "Compiled for the contest-mcp project by Stefan Brunner (AE5VG)"
+author: "Compiled for the n3fjp-mcp project by Stefan Brunner (AE5VG)"
 date: "2026-06-23"
 ---
 
 > **A community reference.** This guide was written while building
-> [`contest-mcp`](https://github.com/sbrunner-atx/contest-mcp) and is shared
+> [`n3fjp-mcp`](https://github.com/sbrunner-atx/n3fjp-mcp) and is shared
 > freely (the project is MIT-licensed) to give back to the amateur-radio and
 > developer community. It reorganizes and completes the official N3FJP API page,
 > and — importantly — records what we **verified live** against a running
 > instance, including several places where today's API (v2.2) differs from the
 > public 0.9 documentation. Corrections and additions are welcome via
-> [issues / pull requests](https://github.com/sbrunner-atx/contest-mcp/issues).
+> [issues / pull requests](https://github.com/sbrunner-atx/n3fjp-mcp/issues).
 > This is an independent effort, not affiliated with or endorsed by Affirmatech /
 > N3FJP.
 
@@ -319,7 +319,7 @@ The exact enabling tags for these are described but not shown literally in the
 official page; confirm them against a live instance (they are reachable through
 the escape hatch meanwhile).
 
-Because MCP is request/response, `contest-mcp` enables notifications on demand and
+Because MCP is request/response, `n3fjp-mcp` enables notifications on demand and
 exposes a tool to **drain** the buffered event blocks rather than streaming them.
 
 # Adding records directly, and raw SQL
@@ -352,7 +352,7 @@ SQL, you must `<CMD><SQLCLOSE></CMD>`. To make changes appear immediately:
 - `<CMD><CHECKLOG></CMD>` — load only new records (fast; use after adds).
 - `<CMD><OPENLOG></CMD>` — reload the whole log (use after edits).
 
-> **contest-mcp policy.** Direct adds and individual-record deletes are
+> **n3fjp-mcp policy.** Direct adds and individual-record deletes are
 > destructive and require an explicit `confirm`. Raw SQL that could wipe or
 > overwrite the entire database is refused unless the operator turns on a
 > dedicated, off-by-default configuration switch with a stern warning. See the
@@ -365,12 +365,12 @@ spoken), text-to-speech, rig-offset read/enable/set, the "don't send mode change
 with frequency" option, reading and setting the main form's size/location,
 country-list lookup from a call sign, sending CW, and keying the rig
 (`RIGTX`/`RIGRX`, or CW com-port key down/up). CW and TX keying are out of scope
-for a logging assistant and, in `contest-mcp`, live behind the confirmed escape
+for a logging assistant and, in `n3fjp-mcp`, live behind the confirmed escape
 hatch only.
 
 # Contest exchange fields
 
-`contest-mcp`'s `log` tool should make it easy to set the right exchange fields
+`n3fjp-mcp`'s `log` tool should make it easy to set the right exchange fields
 per contest. The digital-capable contests and their required fields:
 
 | Contest | Exchange fields |
@@ -473,7 +473,7 @@ fill them.
 # Credits, license, and contributing
 
 This reference was compiled by **Stefan Brunner (AE5VG)** while building
-[`contest-mcp`](https://github.com/sbrunner-atx/contest-mcp), with thanks to
+[`n3fjp-mcp`](https://github.com/sbrunner-atx/n3fjp-mcp), with thanks to
 **Affirmatech / N3FJP** for the logging software and its open API, and to the
 authors of community clients (notably `dslotter/wsjtx_to_n3fjp`) whose code
 helped confirm the wire format.
@@ -482,7 +482,7 @@ It is released under the project's **MIT license** — use it, quote it, and bui
 on it freely. If you spot an error, find a command this guide marks uncertain, or
 test against a different N3FJP program/API version, please open an issue or pull
 request so the community reference stays accurate:
-<https://github.com/sbrunner-atx/contest-mcp/issues>.
+<https://github.com/sbrunner-atx/n3fjp-mcp/issues>.
 
 The companion [machine-readable spec](N3FJP-API-SPEC.md) gives the same
 information in a terse, structured form suitable for code generation.

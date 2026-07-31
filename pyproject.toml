@@ -1,6 +1,6 @@
 [project]
-name = "contest-mcp"
-version = "0.2.1"
+name = "n3fjp-mcp"
+version = "0.3.0"
 description = "An MCP server for logging amateur-radio QSOs to N3FJP logging software over its TCP API."
 readme = "README.md"
 license = { text = "MIT" }
@@ -37,19 +37,19 @@ dev = [
 ]
 
 [project.scripts]
-contest-mcp = "contest_mcp.server:main"
+n3fjp-mcp = "n3fjp_mcp.server:main"
 
 [project.urls]
-Homepage = "https://github.com/sbrunner-atx/contest-mcp"
-Repository = "https://github.com/sbrunner-atx/contest-mcp"
-Issues = "https://github.com/sbrunner-atx/contest-mcp/issues"
+Homepage = "https://github.com/sbrunner-atx/n3fjp-mcp"
+Repository = "https://github.com/sbrunner-atx/n3fjp-mcp"
+Issues = "https://github.com/sbrunner-atx/n3fjp-mcp/issues"
 
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/contest_mcp"]
+packages = ["src/n3fjp_mcp"]
 
 # Ruff is a fast linter/formatter; configuring it here is a sign of a maintained
 # project. We run it in CI.

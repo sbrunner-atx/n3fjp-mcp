@@ -3,7 +3,7 @@ name: contest-operating
 description: >
   Run a contest operating loop end-to-end: call CQ, work callers through the
   exchange, handle QRM/garble/no-copy situations, and log completed QSOs to
-  N3FJP via contest-mcp. Use for ARRL Field Day and similar exchange-based
+  N3FJP via n3fjp-mcp. Use for ARRL Field Day and similar exchange-based
   contests on digital modes (pairs with the fldigi-operating skill in
   fldigi-mcp for radio control). Field-proven during ARRL Field Day 2026
   (class-2A club station, BPSK31; example callsigns anonymized).
@@ -69,7 +69,7 @@ callsign + exchange), do not log. An incomplete QSO is not a contact.
 decoded call against `[A-Z0-9]{1,3}[0-9][A-Z]{1,3}` (plus optional `/`
 suffix). Noise fragments frequently look call-ish.
 
-## Logging to N3FJP (contest-mcp)
+## Logging to N3FJP (n3fjp-mcp)
 
 Preferred: the one-shot flow. Exchange fields go in the `exchange` dict —
 they are **not** top-level parameters:

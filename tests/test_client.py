@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from contest_mcp.client import _is_loopback
+from n3fjp_mcp.client import _is_loopback
 
 
 def test_is_loopback():

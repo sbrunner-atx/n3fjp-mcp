@@ -1,6 +1,6 @@
-# N3FJP API — Machine-Readable Spec (for contest-mcp)
+# N3FJP API — Machine-Readable Spec (for n3fjp-mcp)
 
-This is the structured command catalog that the `contest-mcp` code is generated
+This is the structured command catalog that the `n3fjp-mcp` code is generated
 from. It is deliberately terse and unambiguous. The prose companion is
 [`N3FJP-API.md`](N3FJP-API.md).
 
@@ -233,7 +233,7 @@ to report unsupported commands clearly.
 `ACTION CALLTAB`) returns, a beat later, a single `CALLTABEVENT` block with the
 full call lookup:
 `CALL, BAND, MODE, MODETEST, COUNTRY, DXCC, MYCALL, OPERATOR, QSOCOUNT, PFX,
-CONT, CQZ, ITUZ, LAT, LON, BEARING, LONGPATH, DISTANCE`. `contest-mcp` surfaces
+CONT, CQZ, ITUZ, LAT, LON, BEARING, LONGPATH, DISTANCE`. `n3fjp-mcp` surfaces
 the geographic/entity subset as `lookup` in `log_qso`. A duplicate adds a
 `CALLTABDUPEEVENT`.
 
@@ -256,7 +256,7 @@ in `SEARCH`, the `QSOCOUNT` increments, and a repeat `DUPECHECK` returns
 *"Duplicate! … Rec# 1"*. **But `ENTERRESPONSE` returned `VALUE=0` even on
 success** (the master-table commit is asynchronous, so the immediate count is 0).
 **Do not trust `ENTERRESPONSE`'s value to confirm logging** in networked mode —
-`contest-mcp`'s `log_qso` instead confirms success via the `QSOCOUNT` **delta**.
+`n3fjp-mcp`'s `log_qso` instead confirms success via the `QSOCOUNT` **delta**.
 With the networking server **down/absent**, `ENTER` times out with N3FJP's
 *"Server Failed to Respond"* dialog and nothing is logged; run standalone or keep
 the networking server reachable.

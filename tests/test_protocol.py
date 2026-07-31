@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from contest_mcp.protocol import (
+from n3fjp_mcp.protocol import (
     build_cmd,
     extract_blocks,
     is_db_wipe_sql,
