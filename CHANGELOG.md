@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.1] - 2026-09-09
+
+### Fixed
+- **Pin the MCP SDK below 2.0** (`mcp[cli]>=1.2.0,<2`). mcp 2.x renamed
+  `FastMCP` to `MCPServer` and moved `mcp.server.fastmcp`, so a fresh install
+  from PyPI (`uvx n3fjp-mcp`) resolved 2.x and failed at import. The `.mcpb`
+  was unaffected because it ships `uv.lock`. No functional changes.
+
 ## [0.3.0] - 2026-07-31
 
 ### Changed
@@ -131,7 +139,8 @@ Initial release.
   machine-readable spec, an install guide, and a live test plan. The API
   reference and spec were verified live against N3FJP API version 2.2.
 
-[Unreleased]: https://github.com/sbrunner-atx/n3fjp-mcp/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/sbrunner-atx/n3fjp-mcp/compare/v0.3.1...HEAD
+[0.3.1]: https://github.com/sbrunner-atx/n3fjp-mcp/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/sbrunner-atx/n3fjp-mcp/compare/v0.2.1...v0.3.0
 [0.2.1]: https://github.com/sbrunner-atx/n3fjp-mcp/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/sbrunner-atx/n3fjp-mcp/compare/v0.1.2...v0.2.0

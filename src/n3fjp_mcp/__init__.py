@@ -10,4 +10,4 @@ It is the logging half of an "operate → log" workflow; its sibling project
 ``fldigi-mcp`` operates the radio.
 """
 
-__version__ = "0.3.0"
+__version__ = "0.3.1"

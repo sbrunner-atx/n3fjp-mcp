@@ -1,6 +1,6 @@
 [project]
 name = "n3fjp-mcp"
-version = "0.3.0"
+version = "0.3.1"
 description = "An MCP server for logging amateur-radio QSOs to N3FJP logging software over its TCP API."
 readme = "README.md"
 license = { text = "MIT" }
@@ -27,7 +27,7 @@ classifiers = [
     "Topic :: Communications :: Ham Radio",
 ]
 dependencies = [
-    "mcp[cli]>=1.2.0",
+    "mcp[cli]>=1.2.0,<2",
 ]
 
 [dependency-groups]

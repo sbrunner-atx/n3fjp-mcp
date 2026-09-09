@@ -378,7 +378,7 @@ wheels = [
 
 [[package]]
 name = "n3fjp-mcp"
-version = "0.3.0"
+version = "0.3.1"
 source = { editable = "." }
 dependencies = [
     { name = "mcp", extra = ["cli"] },
@@ -391,7 +391,7 @@ dev = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "mcp", extras = ["cli"], specifier = ">=1.2.0" }]
+requires-dist = [{ name = "mcp", extras = ["cli"], specifier = ">=1.2.0,<2" }]
 
 [package.metadata.requires-dev]
 dev = [
