@@ -53,6 +53,14 @@ tool), the command/operation, and the raw `<CMD>` exchange if you can capture it
 Use the [thumbs-down / issues](https://github.com/sbrunner-atx/n3fjp-mcp/issues)
 to report problems.
 
+## Building the desktop extension (.mcpb)
+
+```bash
+npx @anthropic-ai/mcpb pack      # produces n3fjp-mcp.mcpb from manifest.json
+```
+
+The release workflow builds and attaches the bundle; do not upload it by hand.
+
 ## License
 
 By contributing you agree that your contributions are licensed under the
