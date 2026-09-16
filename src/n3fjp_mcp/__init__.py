@@ -10,4 +10,9 @@ It is the logging half of an "operate → log" workflow; its sibling project
 ``fldigi-mcp`` operates the radio.
 """
 
-__version__ = "0.3.1"
+from importlib.metadata import PackageNotFoundError, version
+
+try:  # single source of truth: [project].version in pyproject.toml
+    __version__ = version("n3fjp-mcp")
+except PackageNotFoundError:  # running from a source tree with no install
+    __version__ = "0.0.0+unknown"
