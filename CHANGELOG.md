@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.2] - 2026-09-22
+
+Documentation only; no code or behavior changes.
+
+### Fixed
+- **README, CONTRIBUTING, the config docstring, the API spec and the test plan
+  no longer describe a `confirm=true` argument.** It was removed in 0.1.1:
+  adding, editing or deleting individual records, and `n3fjp_call`, sit at the
+  *Needs Approval* tier with no extra in-band confirmation. The only hard block
+  is the whole-database wipe behind `N3FJP_ALLOW_DB_WIPE`. This release exists
+  so the PyPI project page stops showing the old wording.
+- **README tool table lists `diagnostics`**, the read-only tool added in 0.1.2.
+- **Operating Skills Field Guide synced with fldigi-mcp's September edition**
+  (HTML, stylesheet and PDF): three skills including `signal-hunting`, and
+  corrected chapter references.
+
 ## [0.3.1] - 2026-09-09
 
 ### Fixed
@@ -139,7 +155,8 @@ Initial release.
   machine-readable spec, an install guide, and a live test plan. The API
   reference and spec were verified live against N3FJP API version 2.2.
 
-[Unreleased]: https://github.com/sbrunner-atx/n3fjp-mcp/compare/v0.3.1...HEAD
+[Unreleased]: https://github.com/sbrunner-atx/n3fjp-mcp/compare/v0.3.2...HEAD
+[0.3.2]: https://github.com/sbrunner-atx/n3fjp-mcp/compare/v0.3.1...v0.3.2
 [0.3.1]: https://github.com/sbrunner-atx/n3fjp-mcp/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/sbrunner-atx/n3fjp-mcp/compare/v0.2.1...v0.3.0
 [0.2.1]: https://github.com/sbrunner-atx/n3fjp-mcp/compare/v0.2.0...v0.2.1

@@ -6,12 +6,12 @@
     "url": "https://github.com/sbrunner-atx/n3fjp-mcp",
     "source": "github"
   },
-  "version": "0.3.1",
+  "version": "0.3.2",
   "packages": [
     {
       "registryType": "pypi",
       "identifier": "n3fjp-mcp",
-      "version": "0.3.1",
+      "version": "0.3.2",
       "transport": {
         "type": "stdio"
       },
