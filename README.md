@@ -233,8 +233,9 @@ procedures distilled from live on-air use — bundled with the repo and the
   Field-proven during ARRL Field Day 2026.
 
 The **[Operating Skills Field Guide](docs/operating-skills-field-guide.pdf)**
-(PDF) documents this skill and its companion `fldigi-operating` from the
-sibling [fldigi-mcp](https://github.com/sbrunner-atx/fldigi-mcp) — skills at
+(PDF) documents this skill and its companions `fldigi-operating` and
+`signal-hunting` from the sibling
+[fldigi-mcp](https://github.com/sbrunner-atx/fldigi-mcp) — skills at
 a glance, installation, a plain-language "first session" chapter for hams
 new to Claude, the operating standard, the special-case playbook, and worked
 examples transcribed from ARRL Field Day 2026.

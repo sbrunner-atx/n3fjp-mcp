@@ -28,9 +28,9 @@
     in this guide was proven on the air.</p>
   </div>
   <div class="statband">
-    <div class="tagline">FIELD GUIDE&nbsp;&nbsp;·&nbsp;&nbsp;VERSION 0.2&nbsp;&nbsp;·&nbsp;&nbsp;JULY 2026</div>
+    <div class="tagline">FIELD GUIDE&nbsp;&nbsp;·&nbsp;&nbsp;VERSION 0.4&nbsp;&nbsp;·&nbsp;&nbsp;SEPTEMBER 2026</div>
     <div class="stats">
-      <div class="stat"><div class="n">2</div><div class="l">Operating<br>skills</div></div>
+      <div class="stat"><div class="n">3</div><div class="l">Operating<br>skills</div></div>
       <div class="stat"><div class="n">6</div><div class="l">Rules in the<br>standard</div></div>
       <div class="stat"><div class="n">7</div><div class="l">Special cases<br>handled</div></div>
       <div class="stat"><div class="n">3</div><div class="l">Worked examples<br>from the air</div></div>
@@ -58,6 +58,7 @@
   <div class="toc-group">The skills</div>
   <div class="toc-row"><span class="tno">01</span><span class="tt"><a href="#fldigi">fldigi-operating</a></span><span class="leader"></span><span class="tp"><a href="#fldigi"></a></span></div>
   <div class="toc-row"><span class="tno">02</span><span class="tt"><a href="#contest">contest-operating</a></span><span class="leader"></span><span class="tp"><a href="#contest"></a></span></div>
+  <div class="toc-row"><span class="tno">03</span><span class="tt"><a href="#hunt">signal-hunting</a></span><span class="leader"></span><span class="tp"><a href="#hunt"></a></span></div>
 
   <div class="toc-group">On the air</div>
   <div class="toc-row"><span class="tno">F</span><span class="tt"><a href="#playbook">The special-case playbook</a></span><span class="leader"></span><span class="tp"><a href="#playbook"></a></span></div>
@@ -73,7 +74,7 @@
   <div class="eyebrow">Chapter A · Before you start</div>
   <h2>Skills at a Glance</h2>
   <div class="h2rule"></div>
-  <p class="lead">Two skills, one operating system. Each in one view — what it governs, and what
+  <p class="lead">Three skills, one operating system. Each in one view — what it governs, and what
   you get. One full page per skill inside.</p>
   <table class="glance">
     <tr><th style="width:6%">#</th><th style="width:20%">Skill</th><th style="width:14%">Ships with</th><th style="width:34%">What it governs</th><th>What you get</th></tr>
@@ -88,6 +89,13 @@
       <td>The contest: the QSO state machine from CQ to logged contact, the special-case
           playbook, and verified N3FJP logging.</td>
       <td class="get">Completed exchanges + a clean, duplicate-free log</td>
+    </tr>
+    <tr>
+      <td>03</td><td class="strong">signal-hunting</td><td class="mono">fldigi-mcp</td>
+      <td>The band: naming each signal's mode from the audio, ranking the station that sits
+          still and calls CQ, tuning to it, and reading fldigi's Signal Browser where the
+          proposed <span class="mono">browser.*</span> patch is present.</td>
+      <td class="get">The right station found, named and tuned before you call</td>
     </tr>
   </table>
   <div class="callout">
@@ -286,7 +294,7 @@
     <div class="ct">Why this exists</div>
     <p>These skills were built by running one real autonomous Field Day session and keeping the
     after-action report — the full account is in
-    <code>n3fjp-mcp/docs/LESSONS-FIELD-DAY-2026.md</code>, and the worked examples in chapter F
+    <code>n3fjp-mcp/docs/LESSONS-FIELD-DAY-2026.md</code>, and the worked examples in chapter G
     retell it verbatim.</p>
   </div>
 </div>
@@ -355,7 +363,7 @@
   <pre><span class="k">log → log_qso</span>  {"call": "W7XYZ", "contest": "field_day",
                 "exchange": {"class": "1D", "section": "AZ"}}</pre>
   <p>Exchange fields go in the <code>exchange</code> dict — they are <b>not</b> top-level
-  parameters. Success is <code>logged: true</code> in the response; chapter G has the full
+  parameters. Success is <code>logged: true</code> in the response; chapter H has the full
   protocol and its quirks.</p>
   <div class="callout warn">
     <div class="ct">The rule that keeps the log clean</div>
@@ -366,6 +374,91 @@
 </div>
 
 <!-- ============ E · PLAYBOOK ============ -->
+<!-- ============ 03 · SIGNAL HUNTING ============ -->
+<div class="chapter" id="hunt">
+  <div class="eyebrow">Skill 03 · ships with fldigi-mcp</div>
+  <h2>signal-hunting</h2>
+  <div class="h2rule"></div>
+  <p class="lead">Finds a station worth working the way an operator reads the waterfall: name what is there, rank the one that sits still and calls CQ, tune to it, confirm in twenty seconds.</p>
+
+  <h3>What the tool sees</h3>
+  <p>fldigi's XML-RPC exposes no spectrum, so <code>signal_hunt</code> taps the audio fldigi is listening to
+  (the <span class="mono">Audio input device</span> setting names it) and returns ranked candidates. It
+  needs the optional extra <code>fldigi-mcp[hunt]</code>, numpy and sounddevice. Each candidate is where
+  the cursor goes, what modem to run, and why it ranks where it does.</p>
+  <table>
+    <tr><th style="width:26%">Field</th><th>Meaning</th></tr>
+    <tr><td class="strong mono">carrier_hz</td><td>The audio carrier: where the waterfall cursor goes. fldigi's Freq is dial + carrier.</td></tr>
+    <tr><td class="strong mono">mode, fldigi_modem</td><td>RTTY with its shift, CW, BPSK31/63/125, Olivia with tones and bandwidth (<span class="mono">OLIVIA-8/250</span>), MFSK16, DominoEX, MT63, or <i>unknown</i>.</td></tr>
+    <tr><td class="strong mono">db_over_floor</td><td>Strength, from a max-hold spectrum so a station that transmits for part of the window still shows at full strength.</td></tr>
+    <tr><td class="strong mono">persistence</td><td>Fraction of the window the signal was present at that carrier. A CQ loop is near 1; the other side of a QSO comes and goes.</td></tr>
+    <tr><td class="strong mono">periodicity</td><td>How strongly the on/off pattern repeats at lags of 8 to 60 seconds. A CQ loop repeats; a QSO in progress does not.</td></tr>
+    <tr><td class="strong mono">score</td><td>Strength weighted by persistence and periodicity. The CQing station wins.</td></tr>
+  </table>
+
+  <h3>With the Signal Browser patch <span class="mono">proposed, not yet in fldigi</span></h3>
+  <div class="callout warn" style="break-inside:avoid;page-break-inside:avoid">
+    <div class="ct">Proposed API, not in any released fldigi</div>
+    <p>The <code>browser</code> tool and <code>signal_hunt method="browser"</code> call two XML-RPC methods
+    that stock fldigi does not have: <code>browser.get_channels</code> (one struct per channel:
+    <span class="mono">channel, freq, active, text</span>) and <code>browser.clear</code>. They come from a
+    four-file patch offered to Dave W1HKJ on 11 September 2026 (w1hkj/fldigi issue 55) and shipped in
+    fldigi-mcp under <span class="mono">patches/</span>. Until he merges it, the names and fields are a
+    proposal and may change. On an unpatched fldigi both calls answer with a hint and nothing else in this
+    chapter changes.</p>
+  </div>
+  <p>fldigi's own Signal Browser, the left-hand panel, is a bank of thirty demodulators with DCD; it copies
+  PSK, RTTY and CW stations too faint for any spectrum to rank. On a build that carries the patch,
+  <code>browser channels</code> or <code>signal_hunt method="browser"</code> returns every channel with its
+  carrier and the text already copied, line breaks kept: the confirm step is done before you tune. Four
+  synthetic PSK31 stations from 0 to −26 dB: all four copied in full. The browser names no mode; hunt the
+  audio first when the band's mode is unknown. Building it yourself is three lines, in the README.</p>
+
+  <h3>Letting the station name its own mode <span class="mono">proposed, not yet in fldigi</span></h3>
+  <div class="callout warn" style="break-inside:avoid;page-break-inside:avoid">
+    <div class="ct">Proposed API, not in any released fldigi</div>
+    <p>The <code>rsid</code> tool calls <code>rsid.get_hits</code> and <code>rsid.clear</code>, from a second
+    four-file patch offered to Dave W1HKJ on 16 September 2026 (w1hkj/fldigi issue 55) and shipped in
+    fldigi-mcp under <span class="mono">patches/</span>, on top of the browser patch. Until it is merged the
+    names and fields are a proposal. On an unpatched fldigi the tool answers with a hint and nothing else in
+    this chapter changes.</p>
+  </div>
+  <p>Naming a mode from its shape is guesswork for the hopping modes: Olivia and Contestia share a grid, so do
+  THOR and DominoEX. Most operators on those modes send an RSID burst at the start of an over, and fldigi's
+  detector hears it across the whole passband. Set RxID to <span class="mono">notify only</span> and the
+  detector reports the mode without switching the modem, so the pass you are running keeps its browser.
+  <code>rsid hits</code> then gives <span class="mono">{utc, mode, hz}</span> for every burst: the mode name
+  is exactly what <code>tune_to</code> takes, and the frequency is where the cursor goes. Ask the band before
+  you guess at it, especially when the analyser says <i>unknown</i> on a strong signal.</p>
+
+  <h3>How a mode is named</h3>
+  <p>From the signal's shape, the way you would from the waterfall, with the numbers checked against the
+  Signal Identification Wiki. Two narrow lines a standard shift apart (170 Hz in amateur use) is RTTY,
+  carrier at the midpoint. One 30 Hz line is PSK31, unless it is keyed on and off with gaps of 40 ms or
+  more, which makes it CW. The hopping modes show as a grid of discrete dots when you look at where the
+  energy is from one 30 ms frame to the next: Olivia, with tones = bandwidth / spacing; MFSK16, 16 tones
+  at 15.6 Hz; DominoEX and THOR, 18 tones. MT63 is a flat continuous block. Contestia looks like Olivia
+  and THOR like DominoEX; only RSID separates those.</p>
+
+  <h3>The loop</h3>
+  <pre><span class="k">signal_hunt</span> seconds=20 (contest: mode="RTTY", seconds=40)
+read candidates highest score first
+<span class="k">tune_to</span> carrier_hz, fldigi_modem   <span class="k">(RxID off during a classified pass)</span>
+wait 20 s, then text → read
+<span class="k">if</span> CQ and a callsign-shaped token, twice → hand to fldigi-operating
+<span class="k">elif</span> modem → get_quality below 30 → next candidate
+<span class="k">else</span> a QSO in progress → wait for SK or 73</pre>
+
+  <div class="callout" style="break-inside:avoid;page-break-inside:avoid">
+    <div class="ct">Limits, stated</div>
+    <p>Verified on five recordings of known mode, PSK31, CW, RTTY at 170 and 450 Hz, Olivia 8/250: 5 of 5.
+    A small set; treat <i>unknown</i> as honest. Symbol rate is not measured yet, which is what would
+    separate Contestia from Olivia without RSID. Without audio access the tool falls back to stepping
+    fldigi's own <code>search_up</code> and reading <code>get_quality</code>: slow, and blind to mode.
+    Receive only; nothing in this skill keys the transmitter.</p>
+  </div>
+</div>
+
 <div class="chapter" id="playbook">
   <div class="eyebrow">Chapter F · On the air</div>
   <h2>The Special-Case Playbook</h2>
@@ -509,8 +602,8 @@
   <div class="callout">
     <div class="ct">73</div>
     <p>This is private, personal work by Stefan Brunner, AE5VG — built for amateur radio
-    operators. Not affiliated with fldigi, N3FJP, or any employer. MIT licensed, like the
-    servers it documents. GL es 73 de AE5VG sk.</p>
+    operators. Not affiliated with fldigi, N3FJP, or any employer. GPL-3.0-or-later, like
+    fldigi itself. GL es 73 de AE5VG sk.</p>
   </div>
 </div>
 </body></html>
