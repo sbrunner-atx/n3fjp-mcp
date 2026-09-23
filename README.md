@@ -36,13 +36,12 @@ It is the **logging** half of an "operate → log" workflow; its sibling project
   exchange → `ENTER`, surfacing the dupe response and the number of records added.
 - **Broad coverage** — read queries, field read/write, search/list, dupe and
   entity checks, band/mode/frequency, direct database operations, and opt-in
-  push notifications, grouped into 9 tools (one permission each) plus an
-  `n3fjp_call` escape hatch for the long tail and future commands.
+  push notifications, grouped into 9 tools (one permission each), a read-only `diagnostics` tool, and
+  an `n3fjp_call` escape hatch for the long tail and future commands.
 - **Safe by design** for a tool that can touch your log database:
   - **Reads** are marked read-only so clients can default them to *Always Allow*.
-  - **Writes** (logging, band/mode) default to *Needs Approval*.
-  - **Destructive** operations (add-direct, delete a record, raw SQL)
-    additionally require `confirm=true`.
+  - **Writes** (logging, band/mode, and adding, editing or deleting individual
+    records) sit at *Needs Approval*, with no extra in-band confirmation.
   - **Whole-database** wipes/overwrites are refused outright unless you flip a
     dedicated, off-by-default `N3FJP_ALLOW_DB_WIPE` switch.
 - **Names match N3FJP** — tools and fields mirror N3FJP's own terminology
@@ -112,6 +111,7 @@ Each tool is one permission and takes an `operation` argument.
 | Tool | Default | Controls |
 | --- | --- | --- |
 | `status` | read | snapshot: program, version, API version, QSO count, band/mode/frequency |
+| `diagnostics` | read | resolved host and port, this process's Python and hostname, network interfaces; does not connect to N3FJP |
 | `query` | read | program, qso_count, next_serial, log/settings/shared paths, qso_rate, band_mode_freq |
 | `fields` | read | read one entry box, or list visible / all fields with values |
 | `search` | read | list recent, search, dupecheck (no side effects), entity status |
@@ -253,7 +253,7 @@ python3 smoke_test.py 192.168.1.50 1100   # Phase 0: prove the link to N3FJP
 ```
 
 The test suite covers the wire protocol, the operation maps and field catalog,
-type coercion, and the permission/confirm safety model; none of it requires a
+type coercion, and the permission and database-wipe safety model; none of it requires a
 running N3FJP.
 
 ## License

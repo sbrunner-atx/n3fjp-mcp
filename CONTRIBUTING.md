@@ -37,9 +37,9 @@ so they can be unit-tested in isolation. Keep new wire logic there where possibl
 - **Match N3FJP's terminology** in tool/operation/field names so the API stays
   recognizable to operators.
 - **Respect the safety model.** Reads should be marked `readOnlyHint`; new write
-  operations default to approval; anything that deletes/overwrites records is
-  destructive and must require `confirm=true`; nothing may bypass the
-  `N3FJP_ALLOW_DB_WIPE` gate for whole-database operations.
+  operations default to approval (the client's *Needs Approval* tier, with no
+  extra in-band confirmation); nothing may bypass the `N3FJP_ALLOW_DB_WIPE` gate
+  for whole-database operations.
 - **Verify against a real instance** when you can, and note the N3FJP program and
   API version you tested with (the API evolves; e.g. v2.2 dropped some 0.9
   commands and renamed response tags).

@@ -181,10 +181,10 @@ continent, prefix — all computed from the call.
 `fldPoints`, `fldOperator`, `fldComputerName`). Direct DB writes bypass N3FJP's
 contest scoring/multiplier logic — prefer `ACTION ENTER`.
 
-## 10. Transmit / CW (destructive — escape-hatch + confirm)
+## 10. Transmit / CW (escape hatch only)
 
-Out of scope for a logging server's friendly tools; reachable via escape hatch
-with `confirm=true`.
+Out of scope for a logging server's friendly tools; reachable only through the
+`n3fjp_call` escape hatch, which sits at the *Needs Approval* tier.
 
 | Op | Request | Conf |
 | --- | --- | --- |
@@ -196,10 +196,11 @@ with `confirm=true`.
 
 ## 11. Escape hatch
 
-`n3fjp_call(raw, expect=None, confirm=False)` sends an arbitrary `<CMD>…</CMD>`
+`n3fjp_call(command, expect=None)` sends an arbitrary `<CMD>…</CMD>`
 (CRLF appended automatically) and returns parsed response/notification blocks.
-The single way to reach any **I**-confidence command above. Destructive raw
-commands require `confirm=true`; whole-DB SQL still requires `N3FJP_ALLOW_DB_WIPE`.
+The single way to reach any **I**-confidence command above. It runs at the
+*Needs Approval* tier like every write; whole-DB SQL still requires
+`N3FJP_ALLOW_DB_WIPE`. (The `confirm` argument was removed in 0.1.1.)
 
 ---
 

@@ -75,14 +75,14 @@ read-only or self-restoring; record-writing tests are clearly marked.
 
 | ID | Action | Expected |
 | --- | --- | --- |
-| F1 | `database` delete (where="fldPrimaryID=…") **without** confirm | **Refused**: ConfirmationRequired. |
-| F2 | `database` delete (same) with confirm=true | Runs a scoped `DELETE … WHERE …`. |
-| F3 | `database` sql (sql="DELETE FROM tblContacts") confirm=true, switch **off** | **Refused**: DatabaseWipeBlocked. |
+| F1 | `database` delete (where="fldPrimaryID=…") | Client asks for approval (Needs Approval tier); no in-band confirmation. |
+| F2 | Approve F1 | Runs a scoped `DELETE … WHERE …`. |
+| F3 | `database` sql (sql="DELETE FROM tblContacts"), switch **off** | **Refused**: DatabaseWipeBlocked. |
 | F4 | Same as F3 with `N3FJP_ALLOW_DB_WIPE=on` | Allowed (only do this on a throwaway log!). |
-| F5 | `database` delete (where="") confirm=true, switch off | **Refused** — empty WHERE is treated as a wipe. |
-| F6 | `n3fjp_call` "PROGRAM" (no confirm) | Works — recognised read-only command. |
-| F7 | `n3fjp_call` "<ACTION><VALUE>CLEAR</VALUE>" (no confirm) | **Refused** — non-read command needs confirm=true. |
-| F8 | Confirm read tools show as Always-Allow-capable in the client | `status`/`query`/`fields`/`search` are read-only annotated. |
+| F5 | `database` delete (where=""), switch off | **Refused** — empty WHERE is treated as a wipe. |
+| F6 | `n3fjp_call` "PROGRAM" | Works after approval. |
+| F7 | `n3fjp_call` "<SENDSQL><VALUE>DROP TABLE tblContacts</VALUE>", switch off | **Refused**: DatabaseWipeBlocked (the escape hatch goes through the same wipe guard). |
+| F8 | Confirm read tools show as Always-Allow-capable in the client | `status`/`diagnostics`/`query`/`fields`/`search` are read-only annotated. |
 
 ## G. Notifications
 

@@ -11,10 +11,9 @@ Logging does not key a transmitter, so there is no transmit gate (unlike
 ``fldigi-mcp``). The protection here is about the **log database** instead:
 
 * Read operations are harmless and default to *Always Allow* at the client.
-* Write operations (logging a QSO, changing band/mode, adding direct) default to
-  *Needs Approval*.
-* Deleting individual records and other destructive calls additionally require an
-  explicit ``confirm=true`` argument.
+* Write operations (logging a QSO, changing band/mode, adding, editing or
+  deleting individual records, the raw escape hatch) default to *Needs Approval*,
+  with no extra in-band confirmation.
 * Operations that could delete or overwrite the **entire** log database (raw SQL
   ``DELETE`` / ``DROP`` / unscoped ``UPDATE``) are refused outright **unless** the
   operator deliberately turns on :data:`Config.allow_db_wipe`. That switch is off
