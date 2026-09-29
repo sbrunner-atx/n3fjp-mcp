@@ -128,7 +128,7 @@
   <p>Cowork and Claude Code sessions inside the Claude Desktop app use these same extensions.
   Nothing else to install.</p>
 
-  <h3>In Claude Code in a terminal, or another MCP client</h3>
+  <h3>For advanced users: Claude Code in a terminal, or another MCP client</h3>
   <div class="numlist">
     <div class="item"><div class="no">1</div><div class="bd"><b>Copy the skill directories</b>
       from each repo into <code>~/.claude/skills/</code> (or a project's
@@ -138,6 +138,9 @@
       (<code>uvx fldigi-mcp</code>, <code>uvx n3fjp-mcp</code> or from the repos) so the tools
       the skills reference are available.</div></div>
   </div>
+  <p>The MCP servers and skills are not tied to Claude. MCP is an open standard, so other
+  assistants and agentic harnesses such as OpenClaw should work too. They have not been
+  tested, and there are no ready-made configurations for them yet.</p>
 
   <h3>Verify <span class="mono">thirty seconds</span></h3>
   <div class="numlist">
@@ -181,7 +184,12 @@
       out of messages mid-QSO.</div></div>
     <div class="item"><div class="no">2</div><div class="bd"><b>Run your shack software as usual.</b>
       Start fldigi (its XML-RPC interface is on by default). If you want contest logging, start
-      N3FJP and enable its TCP API (Settings → Application Program Interface → checked).</div></div>
+      N3FJP and enable its TCP API (Settings → Application Program Interface → checked).
+      fldigi must key the radio the usual way, under Configure → Config Dialog → Rig Control:
+      Hardware PTT for an interface such as a RigBlaster, nothing for a VOX interface such as a
+      SignaLink. If fldigi's T/R button keys the radio, Claude can too. The N3FJP loggers run
+      only on Windows. On a Mac, run N3FJP in a Windows virtual machine or on a Windows PC and
+      connect it with <code>mcp-host-bridge</code> (ae5vg.com, Getting Started).</div></div>
     <div class="item"><div class="no">3</div><div class="bd"><b>Add the two extensions.</b>
       Double-click <code>fldigi-mcp.mcpb</code>, click Install when Claude Desktop opens, and
       enter your callsign when asked — that callsign is the transmit gate. Repeat with
@@ -383,6 +391,17 @@
   <h2>signal-hunting</h2>
   <div class="h2rule"></div>
   <p class="lead">Finds a station worth working the way an operator reads the waterfall: name what is there, rank the one that sits still and calls CQ, tune to it, confirm in twenty seconds.</p>
+
+  <h3>Two ways to hunt</h3>
+  <p>The preferred way reads fldigi's own Signal Browser. It needs no audio setup, but it needs a
+  patched fldigi (see <i>With the Signal Browser patch</i> below, proposed and not yet in fldigi).
+  Until the patch is in fldigi, use the <b>sound bridge</b>: <code>signal_hunt</code> listens to the
+  same receiver audio as fldigi. With the radio on a sound card cable (an iMic, a SignaLink, the
+  radio's USB port), set <span class="mono">Audio input device</span> to the device fldigi uses,
+  because two programs can read one input at once. When the receiver audio plays on the computer
+  (an SDR program, a web receiver, wfview), split it with a virtual sound card: BlackHole 2ch and a
+  Multi-Output Device on a Mac, or VB-Audio Virtual Cable on Windows. ae5vg.com, Getting Started,
+  has the steps.</p>
 
   <h3>What the tool sees</h3>
   <p>fldigi's XML-RPC exposes no spectrum, so <code>signal_hunt</code> taps the audio fldigi is listening to
