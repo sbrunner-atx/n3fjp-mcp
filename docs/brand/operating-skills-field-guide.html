@@ -125,13 +125,15 @@
       In the fldigi-mcp extension settings, enter your callsign. With no callsign set the
       station is receive-only — nothing can key the radio.</div></div>
   </div>
+  <p>Cowork and Claude Code sessions inside the Claude Desktop app use these same extensions.
+  Nothing else to install.</p>
 
-  <h3>In Claude Code / Cowork</h3>
+  <h3>In Claude Code in a terminal, or another MCP client</h3>
   <div class="numlist">
     <div class="item"><div class="no">1</div><div class="bd"><b>Copy the skill directories</b>
       from each repo into <code>~/.claude/skills/</code> (or a project's
-      <code>.claude/skills/</code>): <code>skills/fldigi-operating/</code> and
-      <code>skills/contest-operating/</code>.</div></div>
+      <code>.claude/skills/</code>): <code>skills/fldigi-operating/</code>,
+      <code>skills/signal-hunting/</code> and <code>skills/contest-operating/</code>.</div></div>
     <div class="item"><div class="no">2</div><div class="bd"><b>Connect the MCP servers</b>
       (<code>uvx fldigi-mcp</code>, <code>uvx n3fjp-mcp</code> or from the repos) so the tools
       the skills reference are available.</div></div>
@@ -254,7 +256,7 @@
   </ul>
   <div class="callout">
     <div class="ct">The habit that matters</div>
-    <p>Run it on a live band, not a tour. Put fldigi on a dummy load, say <i>&ldquo;call CQ and
+    <p>Try the full loop once before you trust it. Put fldigi on a dummy load, say <i>&ldquo;call CQ and
     work whoever comes back,&rdquo;</i> and watch one full cycle — TX drop, listen window, log
     entry — before you connect the antenna.</p>
   </div>
