@@ -170,8 +170,11 @@ them.
 
 ### Remote / contest-station setups (N3FJP on another computer)
 
-If N3FJP runs on the **same** computer as Claude Desktop (the common case), leave
-`N3FJP_HOST` at `127.0.0.1` and you're done.
+N3FJP runs only on Windows. If N3FJP runs on the **same** Windows computer as
+Claude Desktop, leave `N3FJP_HOST` at `127.0.0.1` and you are done. On a **Mac**,
+N3FJP is always elsewhere: in a Windows virtual machine (Parallels, VMware Fusion,
+UTM) or on a Windows PC on the LAN. A VM has its own network address, so it counts
+as a different computer and needs the bridge below.
 
 If N3FJP runs on a **different** computer, there's a catch: a **sandboxed** MCP
 client (notably Claude Desktop) runs the connector so it can only reach

@@ -22,6 +22,12 @@ It does **not** work in:
   contest loggers), with its API turned on:
   **Settings → Application Program Interface → check "TCP API Enabled"**.
   The default API port is **1100**.
+- **Windows.** N3FJP runs only on Windows. On a Mac, run it in a Windows virtual
+  machine (Parallels, VMware Fusion or UTM) or on a Windows PC on your network,
+  and install [mcp-host-bridge](https://github.com/sbrunner-atx/mcp-host-bridge)
+  on the Mac: `mcp-host-bridge install n3fjp --to <the Windows address>`. Leave
+  the extension's host at `127.0.0.1`. A VM counts as another computer because it
+  has its own network address.
 
 You do **not** need Python or anything technical — Claude Desktop handles that.
 
