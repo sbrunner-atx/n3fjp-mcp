@@ -75,6 +75,19 @@ and choose the file. A short settings form asks for the host/port (defaults to
 
 👉 New to this? Follow the step-by-step [install guide](https://github.com/sbrunner-atx/n3fjp-mcp/blob/main/docs/INSTALL.md).
 
+### As a plugin, with the operating skills
+
+n3fjp-mcp is part of the **Amateur Radio** plugin, which installs n3fjp-mcp, fldigi-mcp, wsjtx-mcp and their operating skills in one step. There is a version for Claude and a version for ChatGPT, Codex and other apps that support the open Agent Plugins standard, such as Cursor, GitHub Copilot and VS Code. The plugin needs [uv](https://docs.astral.sh/uv/).
+
+In Claude Code:
+
+```
+/plugin marketplace add sbrunner-atx/ae5vg-plugins
+/plugin install amateur-radio@ae5vg
+```
+
+For the other apps, see [ae5vg.com/downloads.html#plugins](https://ae5vg.com/downloads.html#plugins).
+
 ### From source (development)
 
 ```bash
