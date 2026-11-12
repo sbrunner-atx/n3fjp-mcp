@@ -2,6 +2,8 @@
 
 <!-- mcp-name: io.github.sbrunner-atx/n3fjp-mcp -->
 
+Project page: [ae5vg.com/products/n3fjp-mcp](https://ae5vg.com/products/n3fjp-mcp.html)
+
 An [MCP](https://modelcontextprotocol.io/) server for **logging amateur-radio
 QSOs** to [N3FJP logging software](https://www.n3fjp.com/) — Amateur Contact Log
 and the 100-plus N3FJP contest loggers — from MCP-aware clients such as Claude
@@ -71,7 +73,7 @@ Desktop go to **Settings → Extensions → Advanced settings → Install Extens
 and choose the file. A short settings form asks for the host/port (defaults to
 `127.0.0.1:1100`). **No terminal, no Python, no uv to install.**
 
-👉 New to this? Follow the step-by-step [install guide](docs/INSTALL.md).
+👉 New to this? Follow the step-by-step [install guide](https://github.com/sbrunner-atx/n3fjp-mcp/blob/main/docs/INSTALL.md).
 
 ### From source (development)
 
@@ -189,7 +191,7 @@ mcp-host-bridge install n3fjp --to 192.168.1.50   # knows n3fjp = port 1100; aut
 ```
 
 Manage it with `mcp-host-bridge status n3fjp` / `uninstall n3fjp`. Full details
-are in [docs/REMOTE-HOST.md](docs/REMOTE-HOST.md) and the
+are in [docs/REMOTE-HOST.md](https://github.com/sbrunner-atx/n3fjp-mcp/blob/main/docs/REMOTE-HOST.md) and the
 [mcp-host-bridge README](https://github.com/sbrunner-atx/mcp-host-bridge#readme).
 The `diagnostics` tool helps confirm whether you need it. Keep the link on a
 trusted LAN — the API is unauthenticated.
@@ -203,13 +205,13 @@ TCP API, including several places where today's API (v2.2) differs from the
 public 0.9 documentation. We've written that up as a complete, human-readable
 guide and are sharing it freely to give back to the community:
 
-- **[The N3FJP TCP API — A Field-Tested Reference](docs/N3FJP-API.md)**
-  ([PDF](docs/N3FJP-API.pdf)) — transport, every command grouped by area,
+- **[The N3FJP TCP API — A Field-Tested Reference](https://github.com/sbrunner-atx/n3fjp-mcp/blob/main/docs/N3FJP-API.md)**
+  ([PDF](https://github.com/sbrunner-atx/n3fjp-mcp/blob/main/docs/N3FJP-API.pdf)) — transport, every command grouped by area,
   verified response examples, contest exchange fields, and a hard-won
   **gotchas** section (the API vs. networking ports, `CMD_NOT_FOUND`, commands
   removed since 0.9, the `CALLTABEVENT` lookup, and why `ENTER` can report 0 yet
   still log in networked mode).
-- **[Machine-readable spec](docs/N3FJP-API-SPEC.md)** — the same information in a
+- **[Machine-readable spec](https://github.com/sbrunner-atx/n3fjp-mcp/blob/main/docs/N3FJP-API-SPEC.md)** — the same information in a
   terse, structured command catalog suitable for code generation.
 
 Corrections and additions are welcome — please
@@ -217,25 +219,25 @@ Corrections and additions are welcome — please
 
 ### Project docs
 
-- [Install guide](docs/INSTALL.md) and [Test plan](docs/TEST-PLAN.md).
-- [Field Day 2026 lessons learned](docs/LESSONS-FIELD-DAY-2026.md) — the
+- [Install guide](https://github.com/sbrunner-atx/n3fjp-mcp/blob/main/docs/INSTALL.md) and [Test plan](https://github.com/sbrunner-atx/n3fjp-mcp/blob/main/docs/TEST-PLAN.md).
+- [Field Day 2026 lessons learned](https://github.com/sbrunner-atx/n3fjp-mcp/blob/main/docs/LESSONS-FIELD-DAY-2026.md) — the
   full after-action report from running an autonomous BPSK31 Field Day
   station (class 2A, callsigns anonymized) with n3fjp-mcp + fldigi-mcp: the operating
   loop, special cases encountered live, and recommended improvements.
 
 ## Skills
 
-The [`skills/`](skills/) directory contains agent skills — operating
+The [`skills/`](https://github.com/sbrunner-atx/n3fjp-mcp/tree/main/skills) directory contains agent skills — operating
 procedures distilled from live on-air use — bundled with the repo and the
 `.mcpb` package:
 
-- **[contest-operating](skills/contest-operating/SKILL.md)** — the contest
+- **[contest-operating](https://github.com/sbrunner-atx/n3fjp-mcp/blob/main/skills/contest-operating/SKILL.md)** — the contest
   QSO state machine (CQ → exchange → TU → log), the special-case playbook
   (QRM, garbled callsigns, doubling, no-copy repeats, callsign-only
   callers), and the verified N3FJP logging sequence with its known quirks.
   Field-proven during ARRL Field Day 2026.
 
-The **[Operating Skills Field Guide](docs/operating-skills-field-guide.pdf)**
+The **[Operating Skills Field Guide](https://github.com/sbrunner-atx/n3fjp-mcp/blob/main/docs/operating-skills-field-guide.pdf)**
 (PDF) documents this skill and its companions `fldigi-operating` and
 `signal-hunting` from the sibling
 [fldigi-mcp](https://github.com/sbrunner-atx/fldigi-mcp) — skills at
@@ -262,4 +264,4 @@ running N3FJP.
 
 ## License
 
-[MIT](LICENSE) © 2026 Stefan Brunner (AE5VG)
+[MIT](https://github.com/sbrunner-atx/n3fjp-mcp/blob/main/LICENSE) © 2026 Stefan Brunner (AE5VG)

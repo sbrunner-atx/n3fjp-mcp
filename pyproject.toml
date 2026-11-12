@@ -1,7 +1,7 @@
 [project]
 name = "n3fjp-mcp"
-version = "0.3.2"
-description = "An MCP server for logging amateur-radio QSOs to N3FJP logging software over its TCP API."
+version = "0.3.3"
+description = "An MCP server that lets Claude and other AI assistants log amateur-radio QSOs to N3FJP logging software over its TCP API."
 readme = "README.md"
 license = { text = "MIT" }
 requires-python = ">=3.10"
@@ -16,15 +16,24 @@ keywords = [
     "amateur-radio",
     "contest",
     "logging",
+    "field-day",
+    "qso",
+    "claude",
+    "ai-assistant",
+    "ai-agent",
+    "llm",
+    "ae5vg",
 ]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
+    "Intended Audience :: End Users/Desktop",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
     "Topic :: Communications :: Ham Radio",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
 ]
 dependencies = [
     "mcp[cli]>=1.2.0,<2",
@@ -40,9 +49,12 @@ dev = [
 n3fjp-mcp = "n3fjp_mcp.server:main"
 
 [project.urls]
-Homepage = "https://github.com/sbrunner-atx/n3fjp-mcp"
+Homepage = "https://ae5vg.com/products/n3fjp-mcp.html"
+Documentation = "https://github.com/sbrunner-atx/n3fjp-mcp#readme"
 Repository = "https://github.com/sbrunner-atx/n3fjp-mcp"
 Issues = "https://github.com/sbrunner-atx/n3fjp-mcp/issues"
+Changelog = "https://github.com/sbrunner-atx/n3fjp-mcp/blob/main/CHANGELOG.md"
+"Field Guide" = "https://github.com/sbrunner-atx/n3fjp-mcp/blob/main/docs/operating-skills-field-guide.pdf"
 
 [build-system]
 requires = ["hatchling"]
