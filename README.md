@@ -75,18 +75,11 @@ and choose the file. A short settings form asks for the host/port (defaults to
 
 👉 New to this? Follow the step-by-step [install guide](https://github.com/sbrunner-atx/n3fjp-mcp/blob/main/docs/INSTALL.md).
 
-### As a plugin, with the operating skills
+### Add the operating skills
 
-n3fjp-mcp is part of the **Amateur Radio** plugin, which installs n3fjp-mcp, fldigi-mcp, wsjtx-mcp and their operating skills in one step. There is a version for Claude and a version for ChatGPT, Codex and other apps that support the open Agent Plugins standard, such as Cursor, GitHub Copilot and VS Code. The plugin needs [uv](https://docs.astral.sh/uv/).
+The desktop extension installs only the server. Its operating skills are separate downloads: `contest-operating.skill`, from the [latest release](https://github.com/sbrunner-atx/n3fjp-mcp/releases/latest) or [ae5vg.com/downloads.html](https://ae5vg.com/downloads.html#n3fjp-mcp). In Claude, open **Customize → Skills**, click **Add**, then **Upload skill**, and choose each file.
 
-In Claude Code:
-
-```
-/plugin marketplace add sbrunner-atx/ae5vg-plugins
-/plugin install amateur-radio@ae5vg
-```
-
-For the other apps, see [ae5vg.com/downloads.html#plugins](https://ae5vg.com/downloads.html#plugins).
+For Claude Code or another MCP client, copy the folders under `skills/` into the client's skills folder, for Claude Code `~/.claude/skills/`.
 
 ### From source (development)
 
@@ -258,8 +251,9 @@ a glance, installation, a plain-language "first session" chapter for hams
 new to Claude, the operating standard, the special-case playbook, and worked
 examples transcribed from ARRL Field Day 2026.
 
-To use with Claude Code / Cowork, copy the skill directory into your
-`~/.claude/skills/` (or a project's `.claude/skills/`). Pair it with the
+In the Claude desktop app and Cowork, upload the skill files as described under
+[Add the operating skills](#add-the-operating-skills). In Claude Code, copy the skill
+directory into your `~/.claude/skills/` (or a project's `.claude/skills/`). Pair it with the
 `fldigi-operating` skill from fldigi-mcp for radio control.
 
 ## Development

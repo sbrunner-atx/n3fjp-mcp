@@ -32,3 +32,6 @@ livecheck.py
 probe.py
 
 # icon generator output variants are ignored above; the generator itself is kept
+
+# Skill files built for the GitHub Release
+*.skill

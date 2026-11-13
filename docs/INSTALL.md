@@ -65,7 +65,19 @@ the defaults are correct:
 
 Click **Save**.
 
-## Step 4 — Try it
+## Step 4 — Add the operating skills
+
+The skills teach Claude how to operate. The extension does **not** install them,
+so you add them once.
+
+1. On the same releases page
+   (**<https://github.com/sbrunner-atx/n3fjp-mcp/releases/latest>**), under
+   **Assets**, click **`contest-operating.skill`** to download it.
+2. In Claude Desktop, open **Customize → Skills**.
+3. Click **Add**, then **Upload skill**.
+4. Choose **`contest-operating.skill`**.
+
+## Step 5 — Try it
 
 1. Make sure your **N3FJP program is open** and the API is enabled.
 2. In Claude Desktop, type: **"What's the N3FJP status?"**
