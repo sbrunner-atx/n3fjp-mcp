@@ -75,7 +75,7 @@ so you add them once.
    **Assets**, click **`contest-operating.skill`** to download it.
 2. In Claude Desktop, open **Customize → Skills**.
 3. Click **Add**, then **Upload skill**.
-4. Choose **`contest-operating.skill`**.
+4. Choose **`contest-operating.skill`**, then click **Upload**.
 
 ## Step 5 — Try it
 

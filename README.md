@@ -77,7 +77,7 @@ and choose the file. A short settings form asks for the host/port (defaults to
 
 ### Add the operating skills
 
-The desktop extension installs only the server. Its operating skills are separate downloads: `contest-operating.skill`, from the [latest release](https://github.com/sbrunner-atx/n3fjp-mcp/releases/latest) or [ae5vg.com/downloads.html](https://ae5vg.com/downloads.html#n3fjp-mcp). In Claude, open **Customize → Skills**, click **Add**, then **Upload skill**, and choose each file.
+The desktop extension installs only the server. Its operating skills are separate downloads: `contest-operating.skill`, from the [latest release](https://github.com/sbrunner-atx/n3fjp-mcp/releases/latest) or [ae5vg.com/downloads.html](https://ae5vg.com/downloads.html#n3fjp-mcp). In Claude, open **Customize → Skills**, click **Add**, then **Upload skill**, and choose the file.
 
 For Claude Code or another MCP client, copy the folders under `skills/` into the client's skills folder, for Claude Code `~/.claude/skills/`.
 
