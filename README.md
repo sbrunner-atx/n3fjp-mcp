@@ -52,7 +52,7 @@ It is the **logging** half of an "operate → log" workflow; its sibling project
 
 ## Requirements
 
-To **install the desktop extension** (`.mcpb`):
+To **install the desktop connector** (`.mcpb`):
 
 - An **N3FJP program** running, with **Settings → Application Program Interface →
   "TCP API Enabled"** checked (default API port `1100`).
@@ -65,19 +65,20 @@ For **development from source** you additionally need **Python 3.10+** and
 
 ## Install
 
-### Easiest: one-click desktop extension
+### Easiest: the desktop connector
 
 Download `n3fjp-mcp.mcpb` from the latest
 [release](https://github.com/sbrunner-atx/n3fjp-mcp/releases), then in Claude
-Desktop go to **Settings → Extensions → Advanced settings → Install Extension…**
-and choose the file. A short settings form asks for the host/port (defaults to
+Desktop open **Settings → Desktop app**, click **Manage** next to **Extensions**,
+and drag the file onto that page (or use **Advanced settings → Install extension**).
+It then shows as a connector under **Settings → Customize → Connectors**. A short settings form asks for the host/port (defaults to
 `127.0.0.1:1100`). **No terminal, no Python, no uv to install.**
 
 👉 New to this? Follow the step-by-step [install guide](https://github.com/sbrunner-atx/n3fjp-mcp/blob/main/docs/INSTALL.md).
 
 ### Add the operating skills
 
-The desktop extension installs only the server. Its operating skills are separate downloads: `contest-operating.skill`, from the [latest release](https://github.com/sbrunner-atx/n3fjp-mcp/releases/latest) or [ae5vg.com/downloads.html](https://ae5vg.com/downloads.html#n3fjp-mcp). In Claude, open **Customize → Skills**, click **Add**, then **Upload skill**, and choose the file.
+The desktop connector installs only the server. Its operating skills are separate downloads: `contest-operating.skill`, from the [latest release](https://github.com/sbrunner-atx/n3fjp-mcp/releases/latest) or [ae5vg.com/downloads.html](https://ae5vg.com/downloads.html#n3fjp-mcp). In Claude, open **Customize → Skills**, click **Add**, then **Upload skill**, and choose the file.
 
 For Claude Code or another MCP client, copy the folders under `skills/` into the client's skills folder, for Claude Code `~/.claude/skills/`.
 
@@ -151,7 +152,7 @@ This sets the call, fires `CALLTAB` (dupe check), fills the exchange, sends
 | `N3FJP_TIMEOUT` | `6` | Socket/response timeout, seconds |
 | `N3FJP_ALLOW_DB_WIPE` | `off` | **Danger.** Allow whole-database delete/overwrite (raw SQL `DROP`/`TRUNCATE`/unscoped `DELETE`/`UPDATE`). Leave **off** unless you really mean it |
 
-In the packaged desktop extension these appear as a settings form.
+In the packaged desktop connector these appear as a settings form.
 
 ### Safety model
 

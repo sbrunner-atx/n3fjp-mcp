@@ -112,7 +112,7 @@
   <div class="eyebrow">Chapter B · Before you start</div>
   <h2>Installing the Skills</h2>
   <div class="h2rule"></div>
-  <p class="lead">The skills and the servers install separately. A desktop extension
+  <p class="lead">The skills and the servers install separately. A desktop connector
   (<code>.mcpb</code>) installs only its server, so you add the skills yourself. You do this
   once.</p>
 
@@ -122,9 +122,8 @@
       On the Downloads page at ae5vg.com, under fldigi-mcp, click <code>fldigi-mcp.mcpb</code>,
       <code>fldigi-operating.skill</code> and <code>signal-hunting.skill</code>. Under n3fjp-mcp,
       click <code>n3fjp-mcp.mcpb</code> and <code>contest-operating.skill</code>.</div></div>
-    <div class="item"><div class="no">2</div><div class="bd"><b>Install the extensions.</b>
-      In Claude, open Settings → Extensions → Advanced settings → Install Extension and choose
-      <code>fldigi-mcp.mcpb</code>. Then do the same with <code>n3fjp-mcp.mcpb</code>.</div></div>
+    <div class="item"><div class="no">2</div><div class="bd"><b>Install the connectors.</b>
+      In Claude, open Settings → Desktop app, click Manage next to Extensions, and drag <code>fldigi-mcp.mcpb</code> onto that page. If dragging does not work, click Advanced settings, then Install extension, and choose the file. The new connector then shows under Settings → Customize → Connectors. Then do the same with <code>n3fjp-mcp.mcpb</code>.</div></div>
     <div class="item"><div class="no">3</div><div class="bd"><b>Set the transmit gate.</b>
       In the fldigi-mcp settings, type your callsign in Callsign. With no callsign set, the
       station is receive-only and nothing can key the radio.</div></div>
@@ -134,7 +133,7 @@
       <code>contest-operating.skill</code> all at once (hold ⌘ on a Mac or Ctrl on Windows to
       select several). Click Upload.</div></div>
   </div>
-  <p>Cowork in the Claude desktop app uses the same extensions and skills. Nothing else to
+  <p>Cowork in the Claude desktop app uses the same connectors and skills. Nothing else to
   install.</p>
 
   <h3>For advanced users: Claude Code in a terminal, or another MCP client</h3>
@@ -200,10 +199,9 @@
       SignaLink. If fldigi's T/R button keys the radio, Claude can too. The N3FJP loggers run
       only on Windows. On a Mac, run N3FJP in a Windows virtual machine or on a Windows PC and
       connect it with <code>mcp-host-bridge</code>, as <i>Where everything runs</i> below shows.</div></div>
-    <div class="item"><div class="no">3</div><div class="bd"><b>Add the two extensions.</b>
-      Double-click <code>fldigi-mcp.mcpb</code>, click Install when Claude Desktop opens, and
-      enter your callsign when asked — that callsign is the transmit gate. Repeat with
-      <code>n3fjp-mcp.mcpb</code>.</div></div>
+    <div class="item"><div class="no">3</div><div class="bd"><b>Add the two connectors.</b>
+      Install <code>fldigi-mcp.mcpb</code> and <code>n3fjp-mcp.mcpb</code> as in Chapter B, and
+      enter your callsign in the fldigi settings. That callsign is the transmit gate.</div></div>
     <div class="item"><div class="no">4</div><div class="bd"><b>Add the three skills.</b>
       Upload <code>fldigi-operating.skill</code>, <code>signal-hunting.skill</code> and
       <code>contest-operating.skill</code> under Customize → Skills, as in Chapter B. You

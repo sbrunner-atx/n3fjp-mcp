@@ -6,7 +6,7 @@ terminal.
 
 ## Where does it work?
 
-This is a **Claude Desktop** extension. It runs in:
+This is a **Claude Desktop** connector. It runs in:
 
 - ✅ **Claude Desktop** on **macOS** or **Windows**
 
@@ -26,17 +26,17 @@ It does **not** work in:
   machine (Parallels, VMware Fusion or UTM) or on a Windows PC on your network,
   and install [mcp-host-bridge](https://github.com/sbrunner-atx/mcp-host-bridge)
   on the Mac: `mcp-host-bridge install n3fjp --to <the Windows address>`. Leave
-  the extension's host at `127.0.0.1`. A VM counts as another computer because it
+  the connector's host at `127.0.0.1`. A VM counts as another computer because it
   has its own network address.
 
 You do **not** need Python or anything technical — Claude Desktop handles that.
 
-> **Heads-up on ports.** N3FJP's **API** (port **1100**) is what this extension
+> **Heads-up on ports.** N3FJP's **API** (port **1100**) is what this connector
 > uses. That is *different* from N3FJP's multi-computer **Network** feature
 > (Settings → Network), which uses its own port. They are unrelated — you only
 > need the API enabled.
 
-## Step 1 — Download the extension
+## Step 1 — Download the connector
 
 1. Go to **<https://github.com/sbrunner-atx/n3fjp-mcp/releases/latest>**
 2. Under **Assets**, click **`n3fjp-mcp.mcpb`** to download it.
@@ -44,13 +44,14 @@ You do **not** need Python or anything technical — Claude Desktop handles that
 ## Step 2 — Install it in Claude Desktop
 
 1. Open **Claude Desktop**.
-2. Open **Settings** (the Claude menu, or the gear/⚙︎ icon).
-3. Click **Extensions**.
-4. Click **Advanced settings**, then **Install Extension…**.
-5. Choose the **`n3fjp-mcp.mcpb`** file you just downloaded, and **Install**.
+2. Open **Settings**, then **Desktop app**.
+3. Next to **Extensions**, click **Manage**.
+4. Drag the **`n3fjp-mcp.mcpb`** file you just downloaded onto that page, and click
+   **Install**.
+   If dragging does not work, click **Advanced settings**, then **Install
+   extension**, and choose the file.
 
-> Tip: the **Install Extension…** button lives under **Advanced settings** —
-> that's the spot people tend to miss.
+The new connector then shows under **Settings → Customize → Connectors**.
 
 ## Step 3 — Settings
 
@@ -67,7 +68,7 @@ Click **Save**.
 
 ## Step 4 — Add the operating skills
 
-The skills teach Claude how to operate. The extension does **not** install them,
+The skills teach Claude how to operate. The connector does **not** install them,
 so you add them once.
 
 1. On the same releases page
@@ -103,11 +104,11 @@ If Claude logs a QSO but N3FJP reports **0 records added** (or you see a *"Serve
 Failed to Respond"* popup), N3FJP is probably in **Network mode** pointing at a
 networking server that isn't responding. Either run N3FJP **standalone** (log to
 the local file) or make sure your N3FJP networking server is reachable. This is
-an N3FJP setting, not an extension problem.
+an N3FJP setting, not an connector problem.
 
 ## Running N3FJP on another computer
 
-In the extension settings, set **N3FJP host** to that computer's address (e.g.
+In the connector settings, set **N3FJP host** to that computer's address (e.g.
 `192.168.1.50`) and the API port. Keep it on a trusted LAN — the API is not
 encrypted or authenticated.
 
