@@ -84,11 +84,19 @@ class N3fjp:
             msg = diag.connection_error(self.host, self.port, exc)
             if not _is_loopback(self.host):
                 msg += (
-                    " | If this host cannot reach the target (e.g. a sandboxed MCP "
-                    "client that only reaches loopback), run the standalone "
-                    f"mcp-host-bridge on this machine — `mcp-host-bridge install n3fjp "
-                    f"--to {self.host}` — and set N3FJP host to 127.0.0.1. See "
-                    "docs/REMOTE-HOST.md. Run the `diagnostics` tool for host/network detail."
+                    " | N3FJP is on another computer. If this was the first call since "
+                    "the connector started and the error is 'No route to host', ask "
+                    "again: macOS checks the Local Network permission on the first "
+                    "connection to a LAN address. If it keeps failing, check that "
+                    "N3FJP's TCP API is enabled on port "
+                    f"{self.port} and that the Windows firewall lets it in, and on a "
+                    "Mac allow Claude under System Settings, Privacy & Security, "
+                    "Local Network. Only if this client cannot reach LAN addresses at "
+                    "all (an older Claude Desktop or macOS, or a client that sandboxes "
+                    "connectors), run mcp-host-bridge on this machine: "
+                    f"`mcp-host-bridge install n3fjp --to {self.host}`, then set N3FJP "
+                    "host to 127.0.0.1. See docs/REMOTE-HOST.md. Run the `diagnostics` "
+                    "tool for host and network detail."
                 )
             raise N3fjpError(msg) from exc
         self._buf = ""

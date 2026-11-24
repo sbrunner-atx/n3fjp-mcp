@@ -185,12 +185,18 @@ N3FJP runs only on Windows. If N3FJP runs on the **same** Windows computer as
 Claude Desktop, leave `N3FJP_HOST` at `127.0.0.1` and you are done. On a **Mac**,
 N3FJP is always elsewhere: in a Windows virtual machine (Parallels, VMware Fusion,
 UTM) or on a Windows PC on the LAN. A VM has its own network address, so it counts
-as a different computer and needs the bridge below.
+as a different computer.
 
-If N3FJP runs on a **different** computer, there's a catch: a **sandboxed** MCP
-client (notably Claude Desktop) runs the connector so it can only reach
-`127.0.0.1`, not LAN addresses — so putting N3FJP's LAN IP in the settings will
-time out even though `telnet` to that IP works. Fix it with the standalone
+**Claude Desktop reaches the other computer directly.** Enter N3FJP's address
+(for example `192.168.1.50`) as **N3FJP host** in the connector's settings. On a
+Mac, the very first connection can fail with "No route to host" while macOS
+checks the Local Network permission; ask Claude again and the second try
+connects. If it keeps failing, allow Claude under **System Settings, Privacy &
+Security, Local Network**, and check that the Windows firewall lets port 1100 in.
+
+**Fallback: mcp-host-bridge.** An older Claude Desktop or macOS, or an MCP
+client that sandboxes its connectors, can reach only `127.0.0.1`; there the LAN
+address times out even though `telnet` to it works. Run the standalone
 [mcp-host-bridge](https://github.com/sbrunner-atx/mcp-host-bridge) tool on the
 client computer, then set the host to `127.0.0.1`:
 
@@ -199,11 +205,11 @@ pipx install mcp-host-bridge            # or download a binary from its releases
 mcp-host-bridge install n3fjp --to 192.168.1.50   # knows n3fjp = port 1100; auto-starts
 ```
 
-Manage it with `mcp-host-bridge status n3fjp` / `uninstall n3fjp`. Full details
+Manage it with `mcp-host-bridge status n3fjp` and `uninstall n3fjp`. Full details
 are in [docs/REMOTE-HOST.md](https://github.com/sbrunner-atx/n3fjp-mcp/blob/main/docs/REMOTE-HOST.md) and the
 [mcp-host-bridge README](https://github.com/sbrunner-atx/mcp-host-bridge#readme).
-The `diagnostics` tool helps confirm whether you need it. Keep the link on a
-trusted LAN — the API is unauthenticated.
+The `diagnostics` tool shows what the connector can reach. Keep the link on a
+trusted LAN: the API is unauthenticated.
 
 ## Documentation
 

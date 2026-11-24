@@ -1,6 +1,6 @@
 [project]
 name = "n3fjp-mcp"
-version = "0.3.3"
+version = "0.3.4"
 description = "An MCP server that lets Claude and other AI assistants log amateur-radio QSOs to N3FJP logging software over its TCP API."
 readme = "README.md"
 license = { text = "MIT" }

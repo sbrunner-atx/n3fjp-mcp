@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.4] - 2026-11-23
+
+Claude Desktop now reaches N3FJP on another computer by its LAN address, so mcp-host-bridge is no longer required. It stays as the fallback. Tested on 23 November 2026: Claude Desktop on macOS 27 read an ARRL Field Day log on a Windows PC at its LAN address on the first try.
+
+### Changed
+- The **N3FJP host** setting says to enter the other computer's address. If Claude reports "No route to host" on the very first try, ask again: macOS checks the Local Network permission on the first connection. If it keeps failing, allow Claude under System Settings, Privacy & Security, Local Network. mcp-host-bridge is for an older Claude Desktop or macOS, or a client that sandboxes connectors.
+- The connection error for a LAN host gives the same order: ask again, check the TCP API and the Windows firewall, the Local Network setting, and only then the bridge. The server still never blocks a LAN address.
+- README, `docs/INSTALL.md`, `docs/REMOTE-HOST.md` and the Operating Field Guide (HTML and PDF) describe the direct connection first and the bridge as the fallback. The Field Guide's setup step now says to enter the callsign in the fldigi-mcp settings, not the fldigi settings.
+
+### Added
+- Tests for the order of the connection hint.
+
 ## [0.3.3] - 2026-11-12
 
 Package page only; no code or behavior changes.
@@ -165,7 +177,8 @@ Initial release.
   machine-readable spec, an install guide, and a live test plan. The API
   reference and spec were verified live against N3FJP API version 2.2.
 
-[Unreleased]: https://github.com/sbrunner-atx/n3fjp-mcp/compare/v0.3.2...HEAD
+[Unreleased]: https://github.com/sbrunner-atx/n3fjp-mcp/compare/v0.3.4...HEAD
+[0.3.4]: https://github.com/sbrunner-atx/n3fjp-mcp/compare/v0.3.3...v0.3.4
 [0.3.3]: https://github.com/sbrunner-atx/n3fjp-mcp/compare/v0.3.2...v0.3.3
 [0.3.2]: https://github.com/sbrunner-atx/n3fjp-mcp/compare/v0.3.1...v0.3.2
 [0.3.1]: https://github.com/sbrunner-atx/n3fjp-mcp/compare/v0.3.0...v0.3.1

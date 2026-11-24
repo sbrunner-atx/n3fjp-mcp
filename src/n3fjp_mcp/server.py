@@ -137,7 +137,10 @@ def diagnostics() -> dict:
     Does NOT connect to N3FJP. Reports the resolved N3FJP_HOST/PORT, this
     process's Python and hostname, and the host's network interfaces — so you can
     tell whether the process can even see the target's network (e.g. when running
-    host-side vs. sandboxed).
+    host-side vs. sandboxed). If a LAN host fails, ask again once (macOS checks
+    the Local Network permission on the first connection), then see
+    docs/REMOTE-HOST.md; mcp-host-bridge is the fallback for clients that cannot
+    reach LAN addresses.
     """
     net = diag.network_interfaces()
     return {

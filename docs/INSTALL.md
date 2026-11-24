@@ -24,10 +24,9 @@ It does **not** work in:
   The default API port is **1100**.
 - **Windows.** N3FJP runs only on Windows. On a Mac, run it in a Windows virtual
   machine (Parallels, VMware Fusion or UTM) or on a Windows PC on your network,
-  and install [mcp-host-bridge](https://github.com/sbrunner-atx/mcp-host-bridge)
-  on the Mac: `mcp-host-bridge install n3fjp --to <the Windows address>`. Leave
-  the connector's host at `127.0.0.1`. A VM counts as another computer because it
-  has its own network address.
+  and enter that computer's address as the connector's **N3FJP host** (see
+  [Running N3FJP on another computer](#running-n3fjp-on-another-computer)). A VM
+  counts as another computer because it has its own network address.
 
 You do **not** need Python or anything technical — Claude Desktop handles that.
 
@@ -58,7 +57,8 @@ The new connector then shows under **Settings → Customize → Connectors**.
 A short form appears. For a normal setup where N3FJP runs on the same computer,
 the defaults are correct:
 
-- **N3FJP host** — `127.0.0.1` (change only if N3FJP runs on another PC).
+- **N3FJP host**: `127.0.0.1`. Change it only if N3FJP runs on another PC or in
+  a Windows virtual machine; then enter that computer's address.
 - **N3FJP API port** — `1100` (match what N3FJP shows on the API form).
 - **Allow whole-database wipe** — **leave OFF.** This is a safety switch; only
   turn it on if you truly need Claude to run database-wide deletes/overwrites and
@@ -108,9 +108,21 @@ an N3FJP setting, not an connector problem.
 
 ## Running N3FJP on another computer
 
-In the connector settings, set **N3FJP host** to that computer's address (e.g.
-`192.168.1.50`) and the API port. Keep it on a trusted LAN — the API is not
-encrypted or authenticated.
+In the connector settings, set **N3FJP host** to that computer's address (for
+example `192.168.1.50`) and the API port. Claude Desktop connects to it directly.
+
+On a Mac, the very first connection can fail with "No route to host" while
+macOS checks the Local Network permission. Ask Claude again; the second try
+connects. If it keeps failing, open **System Settings → Privacy & Security →
+Local Network** and turn Claude on, and check that the Windows firewall lets
+port 1100 in.
+
+An older Claude Desktop or macOS, or an MCP client that sandboxes its
+connectors, reaches only `127.0.0.1`. For those, relay with
+[mcp-host-bridge](https://github.com/sbrunner-atx/mcp-host-bridge) as described
+in [REMOTE-HOST.md](REMOTE-HOST.md).
+
+Keep it on a trusted LAN. The API is not encrypted or authenticated.
 
 ## Troubleshooting
 
